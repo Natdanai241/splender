@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"/>
+<title>เลอ มาการอง โรยัล · Le Macaron Royal — Grand Pâtisserie Guild</title>
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Kanit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-deep:#1a0f16;
+  --bg-salon:#281621;
+  --bg-velvet:#361d2d;
+  --cream:#fdf8f2;
+  --cream-2:#f4e8d8;
+  --parchment:#ebd9c3;
+  --rose-gold:#e6b37e;
+  --brass:#d99b38;
+  --brass-light:#fbe19c;
+  --brass-dark:#8c5a14;
+  --berry:#c93b5b;
+  --berry-light:#ff708e;
+  --pistachio:#2b9e66;
+  --pistachio-light:#6be3a4;
+  --ink:#fdf6f0;
+  --ink-dark:#2c1823;
+  --dim:#c7adba;
+  --ok:#3ad486;
+  --bad:#ff6378;
+  --pnl:rgba(43, 23, 35, 0.84);
+  --pnl-light:rgba(253, 248, 242, 0.96);
+  --bdr:rgba(235, 192, 136, 0.34);
+  --cw:100px;
+  --ch:calc(var(--cw)*1.4);
+  --rad:15px;
+  --tk:42px;
+  --nb:64px;
+  --font-sans:'Kanit', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif:'Cormorant Garamond', Georgia, serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:var(--font-sans);
+  background:var(--bg-deep);
+  color:var(--ink);
+  user-select:none;
+  overscroll-behavior:none;
+}
+
+/* ---------- Patisserie Grand Salon Backdrop ---------- */
+#bg{
+  position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+  background:
+    radial-gradient(950px 620px at 15% 0%, rgba(201, 59, 91, 0.20), transparent 65%),
+    radial-gradient(900px 600px at 85% 100%, rgba(217, 155, 56, 0.18), transparent 65%),
+    radial-gradient(1200px 800px at 50% 45%, #341b2b 0%, #21111b 58%, #130910 100%);
+}
+/* Parisian Salon Striped Wallpaper & Marble Tile Floor Hint */
+#bg::before{
+  content:"";position:absolute;inset:0;opacity:0.06;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(251,225,156,0.5) 0px, rgba(251,225,156,0.5) 2px, transparent 2px, transparent 36px),
+    radial-gradient(circle at 18px 18px, rgba(255,255,255,0.35) 1.5px, transparent 0);
+  background-size:36px 36px;
+}
+#bg .awning{
+  position:fixed;top:0;left:0;right:0;height:10px;z-index:1;
+  background:repeating-linear-gradient(
+    90deg,
+    #c93b5b 0px 28px,
+    #fdf8f2 28px 56px,
+    #d99b38 56px 84px,
+    #fdf8f2 84px 112px
+  );
+  box-shadow:0 3px 12px rgba(0,0,0,0.5);
+  opacity:0.88;
+}
+#bg .glyph{
+  position:absolute;opacity:0.065;font-size:54px;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+  animation:drift linear infinite;
+}
+@keyframes drift{
+  0%{transform:translate3d(0,0,0) rotate(-4deg)}
+  50%{transform:translate3d(12px,-22px,0) rotate(6deg)}
+  100%{transform:translate3d(0,0,0) rotate(-4deg)}
+}
+#bg .trim-line{
+  position:absolute;left:2%;right:2%;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(251,225,156,0.28),transparent);
+}
+
+.screen{position:fixed;inset:0;z-index:2;display:none;flex-direction:column}
+.screen.on{display:flex;animation:fadeIn .38s cubic-bezier(.2,.9,.3,1)}
+@keyframes fadeIn{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
+
+/* ---------- Shared Salon Typography & Controls ---------- */
+.center{
+  margin:auto;text-align:center;padding:20px 16px;
+  max-width:610px;width:95%;max-height:100dvh;overflow:auto;
+}
+.crest-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:4px 16px;border-radius:999px;
+  background:linear-gradient(90deg, rgba(217,155,56,0.16), rgba(201,59,91,0.25), rgba(217,155,56,0.16));
+  border:1px solid rgba(251,225,156,0.42);
+  color:var(--brass-light);font-size:11.5px;font-weight:600;letter-spacing:1.8px;
+  text-transform:uppercase;margin-bottom:6px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.3);
+}
+h1{
+  font-size:clamp(28px,5.6vw,48px);
+  line-height:1.12;
+  letter-spacing:1px;
+  font-weight:800;
+  background:linear-gradient(180deg, #fffdf9 8%, #fbe19c 48%, #e09f3e 95%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 3px 0 rgba(25,10,18,0.85)) drop-shadow(0 6px 24px rgba(217,155,56,0.35));
+}
+.en-title{
+  font-family:var(--font-serif);
+  font-style:italic;
+  font-size:clamp(16px,2.8vw,22px);
+  color:var(--rose-gold);
+  letter-spacing:1.2px;
+  margin-top:2px;
+}
+.sub{
+  color:var(--dim);margin:4px 0 14px;
+  font-size:12.5px;letter-spacing:1.4px;text-transform:uppercase;
+}
+
+/* 3D Patisserie Buttons */
+.btn{
+  cursor:pointer;border:none;border-radius:14px;
+  padding:12px 20px;font-size:15px;font-weight:700;
+  color:#2b151e;
+  background:linear-gradient(180deg, #fff3cf 0%, #f7d27a 42%, #d8952b 100%);
+  border:1px solid rgba(255,250,230,0.65);
+  box-shadow:
+    0 4px 0 #7d4d0d,
+    0 10px 22px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.75);
+  transition:transform .1s, filter .18s, box-shadow .18s;
+  font-family:inherit;position:relative;overflow:hidden;
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+}
+.btn::after{
+  content:"";position:absolute;top:0;left:-120%;width:55%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.6),transparent);
+  transform:skewX(-20deg);
+}
+.btn:hover{filter:brightness(1.05)}
+.btn:hover::after{animation:sheen .75s ease}
+@keyframes sheen{to{left:135%}}
+.btn:active{
+  transform:translateY(3px);
+  box-shadow:0 1px 0 #7d4d0d, 0 4px 10px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.5);
+}
+.btn.alt{
+  background:linear-gradient(180deg, #ff9bb1 0%, #e04b6c 45%, #b32646 100%);
+  color:#fff9fb;
+  border-color:rgba(255,214,224,0.55);
+  box-shadow:0 4px 0 #6b1126, 0 10px 22px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.45);
+}
+.btn.alt:active{box-shadow:0 1px 0 #6b1126}
+.btn.mint{
+  background:linear-gradient(180deg, #98f5c4 0%, #38b877 45%, #1d7d4c 100%);
+  color:#062917;
+  border-color:rgba(220,255,235,0.6);
+  box-shadow:0 4px 0 #0d4a2b, 0 10px 22px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.5);
+}
+.btn.ghost{
+  background:rgba(255,245,238,0.06);
+  border:1.5px solid var(--bdr);
+  color:var(--ink);
+  box-shadow:0 4px 12px rgba(0,0,0,0.25);
+  backdrop-filter:blur(8px);
+}
+.btn.ghost:hover{
+  background:rgba(251,225,156,0.13);
+  border-color:var(--brass-light);
+}
+.btn.ghost:active{transform:translateY(2px)}
+.btn:disabled{
+  filter:grayscale(.85) brightness(.55);
+  cursor:not-allowed;transform:none!important;
+}
+.btn.sm{padding:7px 13px;font-size:13px;border-radius:11px}
+
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center}
+.col{display:flex;flex-direction:column;gap:11px}
+
+input{
+  font-family:inherit;font-size:15.5px;padding:12px 15px;
+  border-radius:13px;border:1.5px solid var(--bdr);
+  background:rgba(18, 8, 14, 0.58);
+  color:var(--ink);text-align:center;width:100%;
+  transition:border-color .2s, box-shadow .2s;
+}
+input::placeholder{color:rgba(199,173,186,0.6)}
+input:focus{
+  outline:none;border-color:var(--brass-light);
+  box-shadow:0 0 0 3px rgba(251,225,156,0.22);
+}
+
+/* Ornate Pâtisserie Salon Panel */
+.panel{
+  background:
+    linear-gradient(180deg, rgba(61, 33, 49, 0.90) 0%, rgba(36, 18, 29, 0.94) 100%);
+  border:1.5px solid var(--bdr);
+  border-radius:22px;padding:20px;
+  backdrop-filter:blur(16px);
+  box-shadow:
+    0 22px 55px rgba(0,0,0,0.65),
+    inset 0 0 0 1px rgba(255,255,255,0.06),
+    inset 0 1px 0 rgba(251,225,156,0.25);
+  position:relative;
+}
+.note{font-size:12px;color:var(--dim);margin-top:6px;line-height:1.6}
+.code{
+  font-family:var(--font-serif);
+  font-size:40px;letter-spacing:12px;font-weight:700;
+  color:var(--brass-light);
+  text-shadow:0 2px 18px rgba(217,155,56,0.55);
+  background:rgba(0,0,0,0.28);
+  padding:6px 18px;border-radius:14px;
+  border:1px dashed rgba(251,225,156,0.4);
+  display:inline-block;margin:4px auto;
+}
+
+/* Hero Menu Badges */
+.hero{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 14px}
+.hero div{
+  background:linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+  border:1px solid var(--bdr);border-radius:14px;padding:9px 8px;
+  font-size:11.5px;text-align:center;
+  box-shadow:0 6px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.hero span{display:block;font-size:22px;margin-bottom:3px;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.4))}
+.hero strong{color:var(--brass-light);display:block;font-size:12.5px}
+
+/* ---------- GAMEPLAY SHELL ---------- */
+#screen-game.on{
+  display:grid;
+  grid-template-rows:auto auto 1fr auto;
+  height:100dvh;gap:6px;padding:12px 10px 6px;
+}
+.topbar{
+  display:flex;align-items:center;gap:8px;overflow:hidden;min-height:40px;
+  background:rgba(34, 17, 27, 0.78);
+  border:1px solid var(--bdr);
+  border-radius:14px;
+  padding:4px 10px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.35);
+}
+.brand{
+  font-weight:800;letter-spacing:0.6px;color:var(--brass-light);
+  font-size:14.5px;white-space:nowrap;
+  display:flex;align-items:center;gap:6px;
+  text-shadow:0 2px 10px rgba(217,155,56,0.4);
+}
+.brand small{
+  font-family:var(--font-serif);font-style:italic;
+  color:var(--rose-gold);font-size:13px;font-weight:600;
+}
+.pill{
+  background:rgba(255,248,240,0.07);
+  border:1px solid var(--bdr);border-radius:999px;
+  padding:4px 12px;font-size:12px;
+  white-space:nowrap;backdrop-filter:blur(8px);
+}
+.pill b{color:var(--brass-light)}
+.tools{margin-left:auto;display:flex;gap:6px}
+.ibtn{
+  width:34px;height:34px;border-radius:10px;
+  border:1px solid var(--bdr);
+  background:rgba(255,248,242,0.07);
+  color:var(--ink);font-size:15px;cursor:pointer;
+  display:grid;place-items:center;transition:.18s;
+}
+.ibtn:hover{
+  background:rgba(251,225,156,0.2);
+  border-color:var(--brass-light);
+  transform:translateY(-2px);
+}
+.ibtn.off{filter:grayscale(1) brightness(.55);opacity:0.65}
+
+/* ---------- Royal Critics / Gourmets Strip (Nobles) ---------- */
+.noblebar{
+  display:flex;gap:8px;justify-content:center;align-items:center;
+  flex-wrap:nowrap;overflow:hidden;padding:2px 4px;
+}
+.noble-tag{
+  font-size:11px;color:var(--rose-gold);letter-spacing:1px;
+  text-transform:uppercase;font-weight:700;margin-right:4px;
+  display:flex;align-items:center;gap:4px;white-space:nowrap;
+}
+.noble{
+  width:var(--nb);height:var(--nb);
+  border-radius:14px;position:relative;flex:0 0 auto;
+  background:
+    radial-gradient(circle at 50% 35%, #5c2b45 0%, #2e1523 85%);
+  border:2px solid var(--brass);
+  display:grid;place-items:center;
+  box-shadow:
+    0 5px 14px rgba(0,0,0,0.55),
+    inset 0 0 0 2px rgba(251,225,156,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+  transition:.22s;
+}
+.noble::before{
+  content:"";position:absolute;inset:3px;
+  border:1px dotted rgba(251,225,156,0.45);
+  border-radius:10px;pointer-events:none;
+}
+.noble .face{
+  font-size:calc(var(--nb)*.42);
+  filter:drop-shadow(0 3px 4px rgba(0,0,0,0.55));
+  animation:sway 5s ease-in-out infinite;
+  margin-top:-2px;
+}
+.noble .pts{
+  position:absolute;top:2px;left:5px;
+  font-weight:800;color:#fff7d6;
+  font-size:calc(var(--nb)*.19);
+  text-shadow:0 1px 3px #000;
+}
+.noble .req{
+  position:absolute;bottom:3px;left:0;right:0;
+  display:flex;gap:2px;justify-content:center;
+}
+.noble.glow{
+  animation:nglow 1.2s ease-in-out infinite;
+  transform:translateY(-3px);
+  border-color:#fff2b2;
+}
+@keyframes nglow{
+  0%,100%{box-shadow:0 0 0 rgba(251,225,156,0), 0 5px 14px rgba(0,0,0,0.55)}
+  50%{box-shadow:0 0 22px 5px rgba(251,225,156,0.8), 0 5px 14px rgba(0,0,0,0.55)}
+}
+
+/* ---------- Main 3-Column Salon Table ---------- */
+.main{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:10px;min-height:0;align-items:center;
+}
+
+/* LEFT: Macaron Confectionery Showcase Rail */
+.rail{
+  display:flex;flex-direction:column;gap:7px;
+  align-items:center;justify-content:center;
+  background:
+    linear-gradient(180deg, rgba(56, 30, 45, 0.92), rgba(33, 17, 27, 0.95));
+  border:1.5px solid var(--bdr);
+  border-radius:18px;padding:10px 9px;
+  backdrop-filter:blur(12px);
+  box-shadow:0 10px 28px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12);
+}
+.rail .lbl{
+  font-size:10px;color:var(--brass-light);
+  letter-spacing:0.8px;font-weight:700;margin-bottom:1px;
+  text-transform:uppercase;
+}
+
+/* 3D Macaron / Truffle Tokens */
+.tok{
+  width:var(--tk);height:var(--tk);
+  border-radius:50%;
+  display:grid;place-items:center;
+  font-size:calc(var(--tk)*.44);font-weight:900;
+  position:relative;cursor:pointer;flex:0 0 auto;
+  border:2px solid rgba(40,18,28,0.65);
+  box-shadow:
+    inset 0 -5px 8px rgba(0,0,0,0.38),
+    inset 0 3px 6px rgba(255,255,255,0.65),
+    0 5px 10px rgba(0,0,0,0.55);
+  transition:transform .16s cubic-bezier(.2,.9,.3,1.4), box-shadow .16s, filter .16s;
+}
+/* Macaron piped cream ring */
+.tok::after{
+  content:"";position:absolute;inset:3px;border-radius:50%;
+  border:1.5px dashed rgba(255,255,255,0.45);
+  pointer-events:none;
+}
+/* Glossy sugar dome reflection */
+.tok::before{
+  content:"";position:absolute;top:11%;left:20%;width:40%;height:24%;
+  border-radius:50%;
+  background:rgba(255,255,255,0.58);
+  filter:blur(1.5px);pointer-events:none;
+}
+.tok:hover{transform:translateY(-3px) scale(1.07)}
+.tok .n{
+  position:absolute;bottom:-4px;right:-5px;
+  background:#24111c;border:1.5px solid var(--brass);
+  border-radius:999px;font-size:10.5px;padding:0 5.5px;
+  font-weight:800;color:var(--brass-light);line-height:15px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.6);
+  z-index:2;
+}
+.tok.sel{
+  outline:3px solid var(--brass-light);outline-offset:2px;
+  transform:translateY(-5px) scale(1.11);
+  box-shadow:0 0 22px 5px rgba(251,225,156,0.75), inset 0 -4px 8px rgba(0,0,0,0.4);
+}
+.tok.sel .sel-badge{
+  position:absolute;top:-6px;left:-6px;
+  background:var(--ok);color:#052918;border-radius:50%;
+  width:17px;height:17px;font-size:11px;
+  display:grid;place-items:center;font-weight:900;
+  border:1.5px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,0.5);
+  z-index:3;
+}
+.tok.dis{filter:grayscale(.82) brightness(.52);cursor:not-allowed}
+.tok.dis:hover{transform:none}
+.tok.bump{animation:bump .4s ease}
+@keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.26)}100%{transform:scale(1)}}
+
+/* 5 Artisanal Flavors + 1 Golden Truffle */
+/* w: Vanilla Chantilly (White/Cream) */
+.t-w{background:radial-gradient(circle at 35% 30%, #ffffff 0%, #f5ead8 55%, #cbb89d 100%);color:#3d2b1f}
+/* u: Blueberry Ganache (Sapphire Blue) */
+.t-u{background:radial-gradient(circle at 35% 30%, #9acbff 0%, #2f66d0 58%, #163173 100%);color:#f2f7ff}
+/* g: Sicilian Pistachio (Lush Green) */
+.t-g{background:radial-gradient(circle at 35% 30%, #a3f5c4 0%, #23965b 58%, #0d4d2b 100%);color:#eefdf4}
+/* r: Raspberry Velvet (Ruby Berry) */
+.t-r{background:radial-gradient(circle at 35% 30%, #ffadb9 0%, #d62849 58%, #780c21 100%);color:#fff2f4}
+/* k: Dark Valrhona Cacao (Espresso Chocolate) */
+.t-k{background:radial-gradient(circle at 35% 30%, #9e8279 0%, #422a23 58%, #1c100d 100%);color:#f7edea}
+/* y: 24K Golden Saffron Truffle */
+.t-y{background:radial-gradient(circle at 35% 30%, #fff6bf 0%, #eab32e 58%, #8f5d05 100%);color:#3b2300}
+
+/* ---------- CENTER: Pâtisserie Recipe Card Market ---------- */
+.board{
+  display:flex;flex-direction:column;gap:7px;
+  justify-content:center;align-items:center;min-width:0;
+}
+.rowlvl{
+  display:grid;
+  grid-template-columns:calc(var(--cw)*.64) repeat(4,var(--cw));
+  gap:7px;align-items:center;
+}
+
+/* Recipe Cloche Decks */
+.deck{
+  height:var(--ch);border-radius:var(--rad);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  background:
+    radial-gradient(circle at 50% 25%, rgba(251,225,156,0.18), transparent 65%),
+    linear-gradient(160deg, #4f283c 0%, #291320 100%);
+  border:2px solid rgba(235, 192, 136, 0.55);
+  cursor:pointer;font-size:10px;color:var(--cream-2);text-align:center;
+  box-shadow:
+    0 6px 14px rgba(0,0,0,0.55),
+    inset 0 0 0 2px rgba(255,255,255,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.25);
+  transition:.18s;position:relative;overflow:hidden;
+  padding:4px;
+}
+.deck::before{
+  content:"🍽️";font-size:calc(var(--cw)*.22);opacity:0.85;
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,0.4));
+}
+.deck:hover{
+  border-color:var(--brass-light);
+  transform:translateY(-3px);
+  box-shadow:0 10px 20px rgba(0,0,0,0.65);
+}
+.deck .lv{
+  font-size:calc(var(--cw)*.14);color:var(--brass-light);
+  letter-spacing:1.5px;font-weight:800;
+}
+.deck .ct{
+  font-size:calc(var(--cw)*.21);font-weight:900;color:#fff;
+  line-height:1.05;
+}
+.deck .lbl-sm{
+  font-size:calc(var(--cw)*.095);color:var(--rose-gold);font-weight:600;
+}
+.deck.empty{opacity:.32;cursor:not-allowed}
+
+/* Pâtisserie Recipe Cards */
+.card{
+  height:var(--ch);width:var(--cw);
+  border-radius:var(--rad);position:relative;overflow:hidden;cursor:pointer;
+  border:2px solid rgba(45, 22, 33, 0.65);
+  box-shadow:
+    0 6px 14px rgba(0,0,0,0.55),
+    inset 0 0 0 1.5px rgba(255,255,255,0.48);
+  transition:transform .18s cubic-bezier(.2,.9,.3,1.4), box-shadow .18s;
+}
+/* Subtle inner pastry frame */
+.card::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(90% 55% at 50% 28%, rgba(255,255,255,0.55), transparent 72%);
+  pointer-events:none;
+}
+.card::after{
+  content:"";position:absolute;top:-60%;left:-85%;width:55%;height:230%;
+  transform:rotate(22deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent);
+  opacity:0;pointer-events:none;
+}
+.card:hover::after{animation:shine .7s ease}
+@keyframes shine{0%{opacity:1;left:-85%}100%{opacity:1;left:150%}}
+.card:hover{
+  transform:translateY(-7px) scale(1.035);
+  box-shadow:0 16px 28px rgba(0,0,0,0.68), 0 0 0 2px var(--brass-light);
+}
+.card.empty{
+  background:rgba(255,248,242,0.03);
+  border:2px dashed rgba(235,192,136,0.22);
+  cursor:default;box-shadow:none;
+}
+.card.empty:hover{transform:none;box-shadow:none}
+.card.deal{animation:deal .45s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes deal{
+  0%{transform:translateY(-26px) rotateY(70deg) scale(.86);opacity:0}
+  100%{transform:none;opacity:1}
+}
+
+/* Card Top Awning Header */
+.card .hd{
+  height:30%;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:3px 6px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.25) 100%);
+  border-bottom:1.5px solid rgba(0,0,0,0.12);
+  position:relative;
+}
+.card .pts{
+  font-weight:900;font-size:calc(var(--cw)*.26);
+  line-height:1;
+  color:#2b141d;
+  text-shadow:0 1px 0 rgba(255,255,255,0.8);
+  display:flex;align-items:center;gap:1px;
+}
+.card .pts small{font-size:calc(var(--cw)*.15);color:#d48806}
+.card .bon-pill{
+  width:calc(var(--cw)*.27);height:calc(var(--cw)*.27);
+  border-radius:50%;
+  display:grid;place-items:center;
+  font-size:calc(var(--cw)*.17);
+  border:1.5px solid rgba(0,0,0,0.45);
+  box-shadow:0 2px 4px rgba(0,0,0,0.35), inset 0 1px 2px rgba(255,255,255,0.6);
+}
+.card .art{
+  position:absolute;top:29%;left:0;right:0;
+  text-align:center;font-size:calc(var(--cw)*.38);
+  filter:drop-shadow(0 4px 5px rgba(0,0,0,0.35));
+  animation:sway 4.4s ease-in-out infinite;
+}
+@keyframes sway{
+  0%,100%{transform:translateY(0) rotate(0)}
+  50%{transform:translateY(-4px) rotate(3deg)}
+}
+.card .cost{
+  position:absolute;bottom:4px;left:4px;
+  display:flex;flex-direction:column;gap:2px;
+  z-index:2;
+}
+.cchip{
+  width:calc(var(--cw)*.225);height:calc(var(--cw)*.225);
+  border-radius:50%;display:grid;place-items:center;
+  font-size:calc(var(--cw)*.14);font-weight:900;
+  border:1.5px solid rgba(25,10,16,0.65);
+  box-shadow:inset 0 2px 3px rgba(255,255,255,0.5), 0 2px 3px rgba(0,0,0,0.55);
+}
+.noble .cchip{
+  width:calc(var(--nb)*.24);height:calc(var(--nb)*.24);
+  font-size:calc(var(--nb)*.145);
+  border-radius:5px;
+}
+.card.buyable{
+  border-color:var(--ok);
+  box-shadow:0 0 0 2.5px rgba(58,212,134,0.72), 0 8px 18px rgba(0,0,0,0.6);
+}
+.card.buyable .hd::after{
+  content:"ปรุงได้";position:absolute;bottom:-9px;right:4px;
+  font-size:calc(var(--cw)*.095);
+  background:linear-gradient(180deg,#5ef2a5,#1ca65c);
+  color:#032613;border-radius:6px;padding:0.5px 5px;
+  font-weight:800;border:1px solid #fff;
+  box-shadow:0 2px 4px rgba(0,0,0,0.35);
+}
+
+/* Recipe Card Flavor Backgrounds (Patisserie Pastel + Rich Borders) */
+.bg-w{background:linear-gradient(165deg, #fffdf9 0%, #f2e4ce 55%, #d6be9c 100%)}
+.bg-u{background:linear-gradient(165deg, #d9ecff 0%, #6ba5f2 52%, #244b9e 100%)}
+.bg-g{background:linear-gradient(165deg, #d8fbe6 0%, #57cc8a 52%, #14693b 100%)}
+.bg-r{background:linear-gradient(165deg, #ffe0e6 0%, #f06580 52%, #991732 100%)}
+.bg-k{background:linear-gradient(165deg, #e6dad5 0%, #7d5c50 52%, #2e1c16 100%)}
+
+/* ---------- RIGHT: Pâtissier Chef Stations (Players) ---------- */
+.players{
+  display:flex;flex-direction:column;gap:6px;
+  justify-content:center;min-width:0;
+}
+.pl{
+  background:
+    linear-gradient(180deg, rgba(56, 30, 45, 0.88), rgba(33, 17, 27, 0.92));
+  border:1.5px solid var(--bdr);
+  border-radius:15px;padding:7px 10px;min-width:186px;
+  backdrop-filter:blur(10px);transition:.22s;
+  position:relative;overflow:hidden;
+  box-shadow:0 6px 16px rgba(0,0,0,0.4);
+}
+.pl.turn{
+  border-color:var(--brass-light);
+  box-shadow:0 0 20px rgba(251,225,156,0.35), inset 0 0 12px rgba(251,225,156,0.08);
+  transform:translateX(-3px);
+}
+.pl.turn::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(180deg, var(--brass-light), var(--berry-light));
+}
+.pl.off{opacity:.5}
+.pl .nm{
+  display:flex;align-items:center;gap:5px;
+  font-weight:700;font-size:12.5px;color:var(--cream);
+}
+.pl .vp{
+  margin-left:auto;color:var(--brass-light);
+  font-weight:900;font-size:15px;
+  text-shadow:0 0 10px rgba(217,155,56,0.55);
+  background:rgba(0,0,0,0.28);
+  padding:1px 7px;border-radius:999px;
+  border:1px solid rgba(251,225,156,0.3);
+}
+.pl .line{display:flex;gap:3px;margin-top:5px;flex-wrap:wrap}
+.mini{
+  min-width:26px;height:21px;border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10.5px;font-weight:800;padding:0 4px;
+  border:1px solid rgba(0,0,0,0.45);
+  box-shadow:inset 0 1px 2px rgba(255,255,255,0.35);
+}
+.mini small{opacity:.82;font-weight:700;margin-left:1px}
+.bar{
+  height:4px;border-radius:4px;
+  background:rgba(255,255,255,0.1);
+  margin-top:5px;overflow:hidden;
+}
+.bar i{
+  display:block;height:100%;
+  background:linear-gradient(90deg, var(--berry-light), var(--brass-light));
+  transition:width .5s;
+}
+
+/* ---------- BOTTOM: Chef Action Counter & Reserved Cloches ---------- */
+.bottom{
+  display:flex;flex-direction:column;gap:4px;
+  align-items:center;padding:4px 8px;
+  background:rgba(34, 17, 27, 0.78);
+  border:1px solid var(--bdr);
+  border-radius:15px;
+}
+.msg{
+  font-size:12.5px;color:var(--brass-light);
+  min-height:18px;text-align:center;letter-spacing:.3px;font-weight:500;
+}
+.acts{
+  display:flex;align-items:center;gap:8px;
+  flex-wrap:wrap;justify-content:center;
+}
+.hand{display:flex;gap:6px;align-items:center}
+
+/* ---------- MODAL OVERLAYS ---------- */
+#ov{
+  position:fixed;inset:0;z-index:20;
+  background:rgba(16, 7, 12, 0.84);
+  display:none;place-items:center;padding:14px;
+  backdrop-filter:blur(7px);
+}
+#ov.on{display:grid;animation:fadeIn .25s ease}
+.sheet{
+  background:
+    linear-gradient(180deg, rgba(64, 34, 51, 0.98) 0%, rgba(32, 16, 26, 0.99) 100%);
+  border:2px solid var(--brass);
+  border-radius:24px;padding:20px;
+  max-width:760px;width:100%;max-height:92dvh;overflow:auto;
+  box-shadow:
+    0 28px 75px rgba(0,0,0,0.75),
+    inset 0 0 0 1px rgba(251,225,156,0.22);
+  animation:pop .3s cubic-bezier(.2,.9,.3,1.35);
+}
+@keyframes pop{from{transform:scale(.9) translateY(18px);opacity:0}to{transform:none;opacity:1}}
+.sheet h2{
+  color:var(--brass-light);text-align:center;
+  margin-bottom:10px;font-size:21px;letter-spacing:0.6px;
+}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:8px 6px;border-bottom:1px solid rgba(235,192,136,0.2);text-align:center}
+th{color:var(--rose-gold);font-size:11.5px;font-weight:700;letter-spacing:.5px}
+tr.me td{background:rgba(251,225,156,0.12)}
+
+.tabs{display:flex;gap:7px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
+.tab{
+  padding:7px 14px;border-radius:11px;
+  border:1px solid var(--bdr);
+  background:rgba(255,255,255,0.05);
+  cursor:pointer;font-size:13px;font-weight:700;
+  transition:.18s;color:var(--ink);
+}
+.tab.on{
+  background:linear-gradient(180deg, var(--brass-light), var(--brass));
+  color:#2b141d;border-color:transparent;
+}
+.howto{font-size:13.5px;line-height:1.95;color:var(--ink)}
+.howto b{color:var(--brass-light)}
+.howto .k{
+  display:inline-grid;place-items:center;
+  width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(180deg, var(--berry-light), var(--berry));
+  color:#fff;font-weight:800;font-size:12px;
+  margin-right:5px;vertical-align:-4px;
+}
+.howto ul{margin:4px 0 10px 4px;list-style:none}
+.howto li{margin:4px 0}
+
+/* FX & Toast */
+#fx{position:fixed;inset:0;pointer-events:none;z-index:30}
+#cv{position:fixed;inset:0;pointer-events:none;z-index:29;display:none}
+.fly{
+  position:absolute;font-size:26px;font-weight:900;
+  animation:fly 1.1s cubic-bezier(.2,.8,.3,1) forwards;
+  text-shadow:0 3px 8px rgba(0,0,0,0.85);white-space:nowrap;
+}
+@keyframes fly{
+  0%{transform:translate(-50%,0) scale(.5);opacity:0}
+  18%{opacity:1;transform:translate(-50%,-16px) scale(1.35)}
+  100%{transform:translate(-50%,-96px) scale(1);opacity:0}
+}
+.spark{
+  position:absolute;width:8px;height:8px;border-radius:50%;
+  pointer-events:none;animation:sp .8s ease-out forwards;
+}
+@keyframes sp{to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+.toast{
+  position:fixed;left:50%;top:16px;transform:translateX(-50%);z-index:40;
+  background:linear-gradient(180deg, rgba(64,34,51,0.97), rgba(34,17,27,0.98));
+  border:1.5px solid var(--brass-light);
+  border-radius:14px;padding:10px 18px;font-size:13px;font-weight:700;
+  color:var(--cream);
+  box-shadow:0 12px 32px rgba(0,0,0,0.65);
+  animation:tin .3s cubic-bezier(.2,.9,.3,1.4);
+}
+@keyframes tin{from{transform:translate(-50%,-24px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+.shake{animation:shk .45s}
+@keyframes shk{
+  0%,100%{transform:none}
+  20%{transform:translate(-5px,3px)}
+  40%{transform:translate(5px,-3px)}
+  60%{transform:translate(-4px,-2px)}
+  80%{transform:translate(4px,2px)}
+}
+
+/* Responsive Breakpoints */
+@media (max-width:940px){
+  .main{grid-template-columns:auto 1fr;grid-template-rows:1fr auto}
+  .players{flex-direction:row;flex-wrap:wrap;justify-content:center;grid-column:1/-1}
+  .pl{min-width:136px}
+}
+@media (max-width:620px){
+  .hero{grid-template-columns:repeat(2,1fr)}
+  .main{grid-template-columns:1fr;grid-template-rows:auto 1fr auto}
+  .rail{flex-direction:row;flex-wrap:wrap;padding:6px 8px}
+  .brand small{display:none}
+}
+</style>
+</head>
+<body>
+<div id="bg"><div class="awning"></div></div>
+
+<!-- ================= MENU SCREEN ================= -->
+<div class="screen on" id="screen-menu">
+  <div class="center">
+    <div class="crest-badge">👑 GRAND SALON DE PÂTISSERIE · PARIS 1789</div>
+    <h1>เลอ มาการอง โรยัล</h1>
+    <div class="en-title">Le Macaron Royal · Grand Pâtisserie Guild</div>
+    <div class="sub">ศึกชิงมงกุฎเชฟขนมหวานหลวงแห่งพระราชวังแวร์ซาย 🧁</div>
+
+    <div class="hero">
+      <div><span>🧁</span><strong>90 ตำรับขนม</strong>ระดับ I · II · III</div>
+      <div><span>👑</span><strong>10 ราชอาคันตุกะ</strong>นักชิมแห่งราชสำนัก</div>
+      <div><span>🍬</span><strong>5 รสชาติ + ทรัฟเฟิล</strong>มาการองชั้นเลิศ</div>
+      <div><span>⭐</span><strong>15 ดาวเกียรติยศ</strong>คว้าตำแหน่งเชฟหลวง</div>
+    </div>
+
+    <div class="panel col">
+      <input id="myname" maxlength="12" placeholder="ระบุนามเชฟขนมหวานของคุณ (เช่น เชฟมารี)"/>
+      <div class="row">
+        <button class="btn" id="b-solo">👩‍🍳 แข่งกับเชฟบอท</button>
+        <button class="btn alt" id="b-host">🏛️ เปิดซาลอน P2P (สร้างห้อง)</button>
+      </div>
+      <div class="row">
+        <input id="joincode" maxlength="5" placeholder="รหัสซาลอน 5 ตัว" style="max-width:180px;text-transform:uppercase;letter-spacing:4px"/>
+        <button class="btn ghost" id="b-join">🚪 เข้าร่วมซาลอน</button>
+      </div>
+      <button class="btn ghost" id="b-how-menu">📖 ตำราการเล่น & กติกาสมาคมเชฟหลวง</button>
+      <div class="row" style="gap:8px;margin-top:2px">
+        <button class="ibtn" id="b-sfx0" title="เสียงครัวและเอฟเฟกต์">🔊</button>
+        <button class="ibtn" id="b-mus0" title="ดนตรีซาลอนฝรั่งเศส">🎵</button>
+      </div>
+      <div class="note" id="menu-note">รองรับ 2–4 เชฟ · กติกามาตรฐานครบถ้วน 100% · เชื่อมต่อผ่านระบบ P2P ทันใจ</div>
+    </div>
+    <div class="note" id="selftest"></div>
+  </div>
+</div>
+
+<!-- ================= SOLO MODE SCREEN ================= -->
+<div class="screen" id="screen-solo">
+  <div class="center">
+    <div class="crest-badge">👩‍🍳 SOLO PÂTISSERIE CHALLENGE</div>
+    <h1>เลือกจำนวนเชฟคู่แข่ง</h1>
+    <div class="en-title">Select Your Rival Master Pâtissiers</div>
+    <div class="sub">ฝึกฝนฝีมือการรังสรรค์ขนมหวานกับเชฟบอทประจำราชสำนัก</div>
+    <div class="panel col">
+      <div class="row">
+        <button class="btn solo-n" data-n="1">🥐 ดวลเดี่ยว (บอท 1 คน)</button>
+        <button class="btn alt solo-n" data-n="2">🎂 ซาลอน 3 เชฟ (บอท 2 คน)</button>
+        <button class="btn mint solo-n" data-n="3">👑 แกรนด์ซาลอน (บอท 3 คน)</button>
+      </div>
+      <div class="note">จำนวนวัตถุดิบมาการองและราชอาคันตุกะจะปรับตามจำนวนผู้เล่นรวม (2/3/4 คน) ตามกติกามาตรฐาน</div>
+      <button class="btn ghost" onclick="go('menu')">← กลับสู่หน้าซาลอนหลัก</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MULTIPLAYER LOBBY SCREEN ================= -->
+<div class="screen" id="screen-lobby">
+  <div class="center">
+    <div class="crest-badge">🏛️ SALON MULTIPLAYER LOBBY</div>
+    <h1>ห้องรับรองเชฟหลวง</h1>
+    <div class="en-title">Le Grand Salon d'Attente</div>
+    <div class="panel col" style="margin-top:10px">
+      <div class="sub" style="margin:0">รหัสเชิญเข้าซาลอน</div>
+      <div><span class="code" id="lob-code">-----</span></div>
+      <div class="row">
+        <button class="btn ghost sm" id="b-copy">🔗 คัดลอกลิงก์เทียบเชิญ</button>
+        <button class="btn ghost sm" id="b-copycode">🔢 คัดลอกรหัส 5 ตัว</button>
+        <button class="btn ghost sm" id="b-how-lob">📖 ตำราการเล่น</button>
+      </div>
+      <div id="lob-list" class="col" style="margin:6px 0"></div>
+      <div class="msg" id="lob-msg">กำลังจัดเตรียมโต๊ะหินอ่อน…</div>
+      <button class="btn" id="b-start" disabled>▶️ เปิดครัวเริ่มการแข่งขัน!</button>
+      <button class="btn ghost" id="b-leave">ออกจากห้องรับรอง</button>
+      <div class="note">เจ้าของซาลอนประมวลผลกฎ 100% · ส่งลิงก์ให้เพื่อนคลิกเข้าห้องได้ทันที · หากสัญญาณหลุดสามารถกลับเข้าด้วย “ชื่อเดิม” ได้</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= GAMEPLAY SCREEN ================= -->
+<div class="screen" id="screen-game">
+  <div class="topbar">
+    <span class="brand">🧁 เลอ มาการอง โรยัล <small>Le Macaron Royal</small></span>
+    <span class="pill" id="p-round">รอบที่ 1</span>
+    <span class="pill" id="p-turn">—</span>
+    <span class="pill" id="p-code" style="display:none"></span>
+    <div class="tools">
+      <button class="ibtn" id="b-how" title="ตำราการเล่น">📖</button>
+      <button class="ibtn" id="b-log" title="บันทึกครัวหลวง">📜</button>
+      <button class="ibtn" id="b-mus" title="ดนตรีซาลอน">🎵</button>
+      <button class="ibtn" id="b-sfx" title="เสียงเอฟเฟกต์">🔊</button>
+    </div>
+  </div>
+
+  <div class="noblebar" id="nobles"></div>
+
+  <div class="main" id="main">
+    <div class="rail" id="rail"></div>
+    <div class="board" id="board"></div>
+    <div class="players" id="players"></div>
+  </div>
+
+  <div class="bottom">
+    <div class="msg" id="msg"></div>
+    <div class="acts" id="actions"></div>
+  </div>
+</div>
+
+<div id="ov"><div class="sheet" id="sheet"></div></div>
+<canvas id="cv"></canvas>
+<div id="fx"></div>
+
+<script>
+"use strict";
+/* =======================================================================
+   1) DATA — Exact 90 Recipe Cards & 10 Royal Gourmets (Preserving 100% math)
+   [level, bonus, points, W,U,G,R,K]
+   ======================================================================= */
+const COLORS=['w','u','g','r','k'];
+const GEM={
+  w:{th:'วานิลลาครีม',ico:'🥛'},
+  u:{th:'บลูเบอร์รี่',ico:'🫐'},
+  g:{th:'พิสตาชิโอ',ico:' pistachio' ? '🍵' : '🍵'},
+  r:{th:'ราสป์เบอร์รี่',ico:'🍓'},
+  k:{th:'ดาร์กช็อกโกแลต',ico:'🍫'},
+  y:{th:'ทรัฟเฟิลทองคำ',ico:'🪙'}
+};
+GEM.g.ico='🍵'; // Matcha / Pistachio Green Confection
+
+const ART={
+  1:['🥐','🥨','🥞','🧇','🍪','🍮','🥧','🍩'],
+  2:['🧁','🍰','🍧','🍨','🥮','🍡'],
+  3:['🎂','🍾','👑','🏰','🦢']
+};
+
+const TIER_NAME={
+  1:'ตำรับครัวต้นตำรับ (ระดับ I)',
+  2:'ขนมหวานบูติก (ระดับ II)',
+  3:'ผลงานเอกราชสำนัก (ระดับ III)'
+};
+
+const CARD_TABLE=[
+/* ---- LEVEL 1 : 40 (8 per flavor) ---- */
+[1,'w',0,0,1,1,1,1],[1,'w',0,0,1,2,1,1],[1,'w',0,0,2,2,0,1],[1,'w',0,1,0,0,1,3],
+[1,'w',0,0,0,0,2,1],[1,'w',0,0,0,0,2,2],[1,'w',0,0,0,0,3,0],[1,'w',1,0,0,4,0,0],
+[1,'u',0,1,0,1,1,1],[1,'u',0,1,0,1,2,1],[1,'u',0,1,0,2,2,0],[1,'u',0,3,1,0,0,1],
+[1,'u',0,1,0,0,0,2],[1,'u',0,2,0,0,0,2],[1,'u',0,0,0,0,0,3],[1,'u',1,0,0,0,4,0],
+[1,'g',0,1,1,0,1,1],[1,'g',0,1,1,0,1,2],[1,'g',0,0,1,0,2,2],[1,'g',0,1,3,1,0,0],
+[1,'g',0,2,1,0,0,0],[1,'g',0,2,2,0,0,0],[1,'g',0,3,0,0,0,0],[1,'g',1,0,0,0,0,4],
+[1,'r',0,1,1,1,0,1],[1,'r',0,2,1,1,0,1],[1,'r',0,2,0,1,0,2],[1,'r',0,0,1,3,1,0],
+[1,'r',0,0,2,1,0,0],[1,'r',0,0,2,2,0,0],[1,'r',0,0,3,0,0,0],[1,'r',1,4,0,0,0,0],
+[1,'k',0,1,1,1,1,0],[1,'k',0,1,2,1,1,0],[1,'k',0,2,2,0,1,0],[1,'k',0,0,0,1,3,1],
+[1,'k',0,0,0,2,1,0],[1,'k',0,0,0,2,2,0],[1,'k',0,0,0,3,0,0],[1,'k',1,0,4,0,0,0],
+/* ---- LEVEL 2 : 30 (6 per flavor) ---- */
+[2,'w',1,0,3,2,2,0],[2,'w',1,0,2,3,3,0],[2,'w',2,0,0,0,0,5],[2,'w',2,3,0,0,0,5],[2,'w',2,0,0,0,5,3],[2,'w',3,6,0,0,0,0],
+[2,'u',1,0,0,3,2,2],[2,'u',1,0,0,2,3,3],[2,'u',2,5,0,0,0,0],[2,'u',2,5,3,0,0,0],[2,'u',2,3,0,0,0,5],[2,'u',3,0,6,0,0,0],
+[2,'g',1,2,0,0,3,2],[2,'g',1,3,0,0,2,3],[2,'g',2,0,5,0,0,0],[2,'g',2,0,5,3,0,0],[2,'g',2,5,3,0,0,0],[2,'g',3,0,0,6,0,0],
+[2,'r',1,2,2,0,0,3],[2,'r',1,3,3,0,0,2],[2,'r',2,0,0,5,0,0],[2,'r',2,0,0,5,3,0],[2,'r',2,0,5,3,0,0],[2,'r',3,0,0,0,6,0],
+[2,'k',1,3,2,2,0,0],[2,'k',1,2,3,3,0,0],[2,'k',2,0,0,0,5,0],[2,'k',2,0,0,0,5,3],[2,'k',2,0,0,5,3,0],[2,'k',3,0,0,0,0,6],
+/* ---- LEVEL 3 : 20 (4 per flavor) ---- */
+[3,'w',3,0,3,3,5,3],[3,'w',4,0,0,0,0,7],[3,'w',4,3,0,0,3,6],[3,'w',5,3,0,0,0,7],
+[3,'u',3,3,0,3,3,5],[3,'u',4,7,0,0,0,0],[3,'u',4,6,3,0,0,3],[3,'u',5,7,3,0,0,0],
+[3,'g',3,5,3,0,3,3],[3,'g',4,0,7,0,0,0],[3,'g',4,3,6,3,0,0],[3,'g',5,0,7,3,0,0],
+[3,'r',3,3,5,3,0,3],[3,'r',4,0,0,7,0,0],[3,'r',4,0,3,6,3,0],[3,'r',5,0,0,7,3,0],
+[3,'k',3,3,3,5,3,0],[3,'k',4,0,0,0,7,0],[3,'k',4,0,0,3,6,3],[3,'k',5,0,0,0,7,3]
+];
+
+const NOBLE_TABLE=[
+ [3,{w:4,u:4},'👸','ดัชเชสเดอวานิลลา'],
+ [3,{u:4,g:4},'🤴','เจ้าชายฟรองซัวส์'],
+ [3,{g:4,r:4},'🎩','มาร์ควิสเดอพิสตาช'],
+ [3,{r:4,k:4},'💃','มาดามโรซาลี'],
+ [3,{k:4,w:4},'🎻','มาเอสโตรช็อกโกลา'],
+ [3,{w:3,u:3,g:3},'👑','สมเด็จพระราชินีมารี'],
+ [3,{u:3,g:3,r:3},'🦢','เลดี้เบลล่าการ์เดน'],
+ [3,{g:3,r:3,k:3},'🧐','นักชิมหลวงกัสตง'],
+ [3,{r:3,k:3,w:3},'🎭','เคานต์แห่งแวร์ซาย'],
+ [3,{k:3,w:3,u:3},'⚜️','ดยุคแห่งปารีส']
+];
+
+const CARDS=CARD_TABLE.map((a,i)=>({
+  id:i,level:a[0],bonus:a[1],pts:a[2],
+  cost:{w:a[3],u:a[4],g:a[5],r:a[6],k:a[7]},
+  art:ART[a[0]][i%ART[a[0]].length]
+}));
+const NOBLES=NOBLE_TABLE.map((n,i)=>({id:i,pts:n[0],req:n[1],face:n[2],title:n[3]}));
+
+function selfTest(){
+  const e=[],lv={1:0,2:0,3:0},bon={};
+  CARDS.forEach(c=>{lv[c.level]++;bon[c.level+c.bonus]=(bon[c.level+c.bonus]||0)+1;});
+  if(CARDS.length!==90)e.push('ตำรับ ≠ 90');
+  if(lv[1]!==40||lv[2]!==30||lv[3]!==20)e.push('ระดับผิด');
+  COLORS.forEach(c=>{if(bon['1'+c]!==8)e.push('L1 '+c);if(bon['2'+c]!==6)e.push('L2 '+c);if(bon['3'+c]!==4)e.push('L3 '+c);});
+  if(NOBLES.length!==10)e.push('ราชอาคันตุกะ ≠ 10');
+  if(NOBLES.some(n=>n.pts!==3))e.push('ราชอาคันตุกะต้อง 3 ดาว');
+  const tp=CARDS.reduce((s,c)=>s+c.pts,0); if(tp!==90)e.push('ดาวรวม '+tp);
+  const ok=!e.length;
+  console.log('%c[SELF-TEST] '+(ok?'PASS ✓':'FAIL ✗'),'color:'+(ok?'#3ad486':'#ff6378'),
+    {cards:CARDS.length,byLevel:lv,nobles:NOBLES.length,totalPoints:tp,errors:e});
+  const el=document.getElementById('selftest');
+  el.innerHTML=ok?'✅ ตรวจสอบชุดข้อมูลสมบูรณ์: 90 ตำรับขนม (40/30/20) · ครบ 5 รสชาติ · 10 ราชอาคันตุกะ · คะแนนรวม 90 ดาว':'❌ '+e.join(' · ');
+  el.style.color=ok?'#6be3a4':'#ff6378';
+}
+
+/* =======================================================================
+   2) ENGINE — Authoritative Game Rules
+   ======================================================================= */
+const rnd=n=>Math.floor(Math.random()*n);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
+const emptyTok=()=>({w:0,u:0,g:0,r:0,k:0,y:0});
+const sumTok=t=>COLORS.reduce((s,c)=>s+t[c],0)+t.y;
+
+const ENGINE={
+  newGame(seats){
+    const n=seats.length, gems=n===2?4:n===3?5:7, nobleCount=n+1;
+    const decks={1:shuffle(CARDS.filter(c=>c.level===1).map(c=>c.id)),
+                 2:shuffle(CARDS.filter(c=>c.level===2).map(c=>c.id)),
+                 3:shuffle(CARDS.filter(c=>c.level===3).map(c=>c.id))};
+    const board={1:[],2:[],3:[]};
+    [1,2,3].forEach(l=>{for(let i=0;i<4;i++)board[l].push(decks[l].length?decks[l].pop():null);});
+    const bank=emptyTok(); COLORS.forEach(c=>bank[c]=gems); bank.y=5;
+    return {seats:seats.map((s,i)=>({idx:i,name:s.name,bot:!!s.bot,connected:true,avatar:s.avatar,
+      tok:emptyTok(),bonus:{w:0,u:0,g:0,r:0,k:0},cards:[],reserved:[],nobles:[],pts:0})),
+      bank,decks,board,nobles:shuffle(NOBLES.map(x=>x.id)).slice(0,nobleCount),
+      turn:0,round:1,phase:'play',endTriggered:false,winner:null,pendingNobles:[],snapshot:null,log:[]};
+  },
+  priceOf(p,card){
+    let gold=0; const pay=emptyTok();
+    for(const c of COLORS){
+      const need=Math.max(0,card.cost[c]-p.bonus[c]);
+      const use=Math.min(need,p.tok[c]); pay[c]=use; gold+=need-use;
+    }
+    if(gold>p.tok.y) return null; pay.y=gold; return pay;
+  },
+  canBuy(p,c){return !!ENGINE.priceOf(p,c);},
+  legalTake3(s,cols){
+    if(!cols||!cols.length) return false;
+    if(new Set(cols).size!==cols.length) return false;
+    if(cols.some(c=>!COLORS.includes(c)||s.bank[c]<1)) return false;
+    const avail=COLORS.filter(c=>s.bank[c]>0).length;
+    return cols.length===Math.min(3,avail);
+  },
+  hasLegalMove(s,p){
+    if(COLORS.some(c=>s.bank[c]>0)) return true;
+    if(p.reserved.length<3 && ([1,2,3].some(l=>s.decks[l].length||s.board[l].some(x=>x!=null)))) return true;
+    for(const l of [1,2,3]) for(const id of s.board[l]) if(id!=null&&ENGINE.canBuy(p,CARDS[id])) return true;
+    for(const id of p.reserved) if(ENGINE.canBuy(p,CARDS[id])) return true;
+    return false;
+  },
+  apply(s,seat,act){
+    if(!s) return {err:'ไม่มีเกม'};
+    const fx=[];
+    if(s.phase==='over') return {err:'จบการแข่งขันแล้ว'};
+    if(s.phase==='roundSummary'){
+      if(act.t!=='nextRound') return {err:'รอเปิดครัวรอบต่อไป'};
+      if(seat!==s.turn) return {err:'เชฟท่านแรกของรอบถัดไปเท่านั้นที่กดเริ่มได้'};
+      s.phase='play'; s.round++; s.snapshot=null; return {fx:[{t:'round'}]};
+    }
+    if(seat!==s.turn) return {err:'ยังไม่ถึงตาของคุณ'};
+    const p=s.seats[seat];
+    if(s.phase==='discard'){
+      if(act.t!=='discard') return {err:'ต้องคืนมาการองให้เหลือในถาดไม่เกิน 10 ชิ้นก่อน'};
+      const c=act.c; if(!p.tok[c]) return {err:'ไม่มีมาการองรสนี้'};
+      p.tok[c]--; s.bank[c]++; fx.push({t:'tok',c});
+      s.log.push(`${p.name} คืนวัตถุดิบ ${GEM[c].ico}`);
+      if(sumTok(p.tok)<=10) return ENGINE.afterAction(s,p,fx);
+      return {fx};
+    }
+    if(s.phase==='noble'){
+      if(act.t!=='noble') return {err:'ต้องเลือกรับรองราชอาคันตุกะ 1 ท่าน'};
+      if(!s.pendingNobles.includes(act.id)) return {err:'ราชอาคันตุกะไม่ถูกต้อง'};
+      ENGINE.giveNoble(s,p,act.id,fx); return ENGINE.endTurn(s,fx);
+    }
+    if(act.t==='pass'){
+      if(ENGINE.hasLegalMove(s,p)) return {err:'ยังมีตาเดินที่สามารถทำได้อยู่'};
+      s.log.push(`${p.name} พักเตาอบ 1 ตา (ไม่มีตาเดินที่ทำได้)`);
+      return ENGINE.endTurn(s,fx);
+    }
+    if(act.t==='take3'){
+      if(!ENGINE.legalTake3(s,act.cols)) return {err:'เลือกหยิบมาการองต่างรสไม่ถูกต้อง'};
+      act.cols.forEach(c=>{s.bank[c]--;p.tok[c]++;fx.push({t:'tok',c});});
+      s.log.push(`${p.name} คัดสรรวัตถุดิบ ${act.cols.map(c=>GEM[c].ico).join('')}`);
+      return ENGINE.afterAction(s,p,fx);
+    }
+    if(act.t==='take2'){
+      const c=act.c;
+      if(!COLORS.includes(c)) return {err:'รสชาติไม่ถูกต้อง'};
+      if(s.bank[c]<4) return {err:'ต้องมีวัตถุดิบรสนี้เหลือ ≥ 4 ชิ้นจึงหยิบ 2 ชิ้นซ้ำได้'};
+      s.bank[c]-=2; p.tok[c]+=2; fx.push({t:'tok',c},{t:'tok',c});
+      s.log.push(`${p.name} คัดสรร ${GEM[c].ico}${GEM[c].ico}`);
+      return ENGINE.afterAction(s,p,fx);
+    }
+    if(act.t==='reserve'){
+      if(p.reserved.length>=3) return {err:'เก็บตำรับลับในฝาครอบได้สูงสุด 3 ใบ'};
+      const l=act.lvl; if(![1,2,3].includes(l)) return {err:'ระดับตำรับไม่ถูกต้อง'};
+      let id=null;
+      if(act.idx>=0){ id=s.board[l][act.idx]; if(id==null) return {err:'ช่องนี้ไม่มีตำรับขนม'};
+        s.board[l][act.idx]=s.decks[l].length?s.decks[l].pop():null; }
+      else { if(!s.decks[l].length) return {err:'กองตำรับระดับนี้หมดแล้ว'}; id=s.decks[l].pop(); }
+      p.reserved.push(id);
+      if(s.bank.y>0){s.bank.y--;p.tok.y++;fx.push({t:'tok',c:'y'});}
+      fx.push({t:'reserve'});
+      s.log.push(`${p.name} เก็บตำรับลับระดับ ${l}${act.idx<0?' (สุ่มจากกอง)':''}`);
+      return ENGINE.afterAction(s,p,fx);
+    }
+    if(act.t==='buy'){
+      let id;
+      if(act.from==='board'){ if(![1,2,3].includes(act.lvl)) return {err:'ระดับไม่ถูกต้อง'};
+        id=s.board[act.lvl][act.idx]; if(id==null) return {err:'ช่องนี้ไม่มีตำรับขนม'}; }
+      else { id=p.reserved[act.idx]; if(id==null) return {err:'ไม่มีตำรับขนมที่เก็บไว้ในช่องนี้'}; }
+      const card=CARDS[id], price=ENGINE.priceOf(p,card);
+      if(!price) return {err:'วัตถุดิบไม่เพียงพอสำหรับรังสรรค์ตำรับนี้'};
+      COLORS.forEach(c=>{p.tok[c]-=price[c];s.bank[c]+=price[c];});
+      p.tok.y-=price.y; s.bank.y+=price.y;
+      p.cards.push(id); p.bonus[card.bonus]++; p.pts+=card.pts;
+      if(act.from==='board') s.board[act.lvl][act.idx]=s.decks[act.lvl].length?s.decks[act.lvl].pop():null;
+      else p.reserved.splice(act.idx,1);
+      fx.push({t:'buy',card:id,pts:card.pts,color:card.bonus});
+      s.log.push(`${p.name} รังสรรค์ตำรับ ${GEM[card.bonus].ico}${card.pts?' +'+card.pts+'⭐':''}`);
+      return ENGINE.afterAction(s,p,fx);
+    }
+    return {err:'คำสั่งไม่รู้จัก'};
+  },
+  afterAction(s,p,fx){
+    if(sumTok(p.tok)>10){s.phase='discard';return {fx,needDiscard:true};}
+    const elig=s.nobles.filter(nid=>{const n=NOBLES[nid];
+      return Object.keys(n.req).every(c=>p.bonus[c]>=n.req[c]);});
+    if(elig.length===1){ENGINE.giveNoble(s,p,elig[0],fx);return ENGINE.endTurn(s,fx);}
+    if(elig.length>1){s.phase='noble';s.pendingNobles=elig;return {fx,needNoble:true};}
+    return ENGINE.endTurn(s,fx);
+  },
+  giveNoble(s,p,nid,fx){
+    s.nobles.splice(s.nobles.indexOf(nid),1);
+    p.nobles.push(nid); p.pts+=NOBLES[nid].pts; s.pendingNobles=[];
+    fx.push({t:'noble',id:nid}); s.log.push(`👑 ${NOBLES[nid].title} เสด็จเยือนร้านของ ${p.name} (+3⭐)`);
+  },
+  endTurn(s,fx){
+    s.phase='play'; s.pendingNobles=[];
+    if(s.seats[s.turn].pts>=15) s.endTriggered=true;
+    s.turn=(s.turn+1)%s.seats.length;
+    if(s.turn===0){
+      if(s.endTriggered){
+        s.phase='over';
+        const best=Math.max(...s.seats.map(p=>p.pts));
+        const cand=s.seats.filter(p=>p.pts===best);
+        const mc=Math.min(...cand.map(p=>p.cards.length));
+        s.winner=cand.filter(p=>p.cards.length===mc).map(p=>p.idx);
+        fx.push({t:'over'});
+      }else{
+        s.snapshot=s.seats.map(p=>({name:p.name,pts:p.pts,cards:p.cards.length,nobles:p.nobles.length,
+          tok:sumTok(p.tok),res:p.reserved.length,bonus:{...p.bonus},avatar:p.avatar,idx:p.idx}));
+        s.phase='roundSummary'; fx.push({t:'summary'});
+      }
+    }
+    return {fx};
+  }
+};
+
+/* =======================================================================
+   3) BOT — Master Pâtissier AI
+   ======================================================================= */
+const BOT={
+  think(s){
+    const p=s.seats[s.turn];
+    if(s.phase==='roundSummary') return {t:'nextRound'};
+    if(s.phase==='discard'){
+      const order=[...COLORS].sort((a,b)=>p.tok[b]-p.tok[a]);
+      const c=order.find(x=>p.tok[x]>0)||(p.tok.y>0?'y':COLORS[0]);
+      return {t:'discard',c};
+    }
+    if(s.phase==='noble') return {t:'noble',id:s.pendingNobles[0]};
+    if(!ENGINE.hasLegalMove(s,p)) return {t:'pass'};
+    const opts=[];
+    [1,2,3].forEach(l=>s.board[l].forEach((id,i)=>{
+      if(id!=null&&ENGINE.canBuy(p,CARDS[id])) opts.push({t:'buy',from:'board',lvl:l,idx:i,card:CARDS[id]});}));
+    p.reserved.forEach((id,i)=>{if(ENGINE.canBuy(p,CARDS[id])) opts.push({t:'buy',from:'res',idx:i,card:CARDS[id]});});
+    if(opts.length){
+      opts.sort((a,b)=>(b.card.pts*10+b.card.level)-(a.card.pts*10+a.card.level));
+      if(opts[0].card.pts>0||Math.random()<.72) return opts[0];
+    }
+    const want={w:0,u:0,g:0,r:0,k:0};
+    [1,2,3].forEach(l=>s.board[l].forEach(id=>{if(id!=null){const c=CARDS[id];
+      COLORS.forEach(x=>{want[x]+=Math.max(0,c.cost[x]-p.bonus[x]-p.tok[x])/(c.level*c.level);});}}));
+    s.nobles.forEach(nid=>{const n=NOBLES[nid];
+      Object.keys(n.req).forEach(c=>{want[c]+=Math.max(0,n.req[c]-p.bonus[c])*.35;});});
+    const avail=COLORS.filter(c=>s.bank[c]>0).sort((a,b)=>want[b]-want[a]);
+    if(avail.length>=3&&sumTok(p.tok)<=7) return {t:'take3',cols:avail.slice(0,3)};
+    const two=COLORS.filter(c=>s.bank[c]>=4).sort((a,b)=>want[b]-want[a]);
+    if(two.length&&sumTok(p.tok)<=8) return {t:'take2',c:two[0]};
+    if(avail.length) return {t:'take3',cols:avail.slice(0,Math.min(3,avail.length))};
+    if(p.reserved.length<3){
+      for(const l of [3,2,1]){const i=s.board[l].findIndex(x=>x!=null); if(i>=0) return {t:'reserve',lvl:l,idx:i};
+        if(s.decks[l].length) return {t:'reserve',lvl:l,idx:-1};}
+    }
+    if(opts.length) return opts[0];
+    return {t:'pass'};
+  }
+};
+
+/* =======================================================================
+   4) AUDIO — Parisian Salon Waltz & Kitchen Chime Synthesizer
+   ======================================================================= */
+const AUDIO={
+  ctx:null,sfx:true,music:false,timer:null,step:0,master:null,mgain:null,
+  init(){ if(this.ctx) return;
+    try{ const A=window.AudioContext||window.webkitAudioContext; this.ctx=new A();
+      this.master=this.ctx.createGain(); this.master.gain.value=.4; this.master.connect(this.ctx.destination);
+      this.mgain=this.ctx.createGain(); this.mgain.gain.value=0; this.mgain.connect(this.master);
+    }catch(e){}
+    if(this.ctx&&this.ctx.state==='suspended') this.ctx.resume();
+  },
+  beep(f,d=.12,type='sine',vol=.22,delay=0,dest){
+    if(!this.ctx) return;
+    const t=this.ctx.currentTime+delay,o=this.ctx.createOscillator(),g=this.ctx.createGain();
+    o.type=type; o.frequency.setValueAtTime(f,t);
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.012);
+    g.gain.exponentialRampToValueAtTime(.0001,t+d);
+    o.connect(g); g.connect(dest||this.master); o.start(t); o.stop(t+d+.04);
+  },
+  noise(d=.18,vol=.14,delay=0,freq=1400,dest){
+    if(!this.ctx) return;
+    const n=Math.max(1,Math.floor(this.ctx.sampleRate*d));
+    const b=this.ctx.createBuffer(1,n,this.ctx.sampleRate),dd=b.getChannelData(0);
+    for(let i=0;i<n;i++) dd[i]=(Math.random()*2-1)*(1-i/n);
+    const src=this.ctx.createBufferSource(); src.buffer=b;
+    const g=this.ctx.createGain(); g.gain.value=vol;
+    const f=this.ctx.createBiquadFilter(); f.type='bandpass'; f.frequency.value=freq; f.Q.value=1.1;
+    src.connect(f); f.connect(g); g.connect(dest||this.master); src.start(this.ctx.currentTime+delay);
+  },
+  play(k){
+    this.init(); if(!this.sfx||!this.ctx) return;
+    const P={
+      click:()=>this.beep(680,.06,'triangle',.16),
+      token:()=>{this.beep(1046,.08,'sine',.19);this.beep(1568,.07,'sine',.11,.045);},
+      card:()=>{this.noise(.11,.09,0,2400);this.beep(480,.08,'triangle',.14,.03);},
+      buy:()=>{[587.3,740,880,1174.7].forEach((f,i)=>this.beep(f,.16,'triangle',.2,i*.055));this.noise(.25,.04,.05,3200);},
+      reserve:()=>{this.beep(392,.12,'triangle',.14);this.beep(587.3,.12,'sine',.13,.07);},
+      noble:()=>{[523.3,659.3,784,1046.5,1318.5].forEach((f,i)=>this.beep(f,.3,'sine',.22,i*.085));this.noise(.5,.05,.1,1100);},
+      room:()=>{[392,493.9,587.3,784].forEach((f,i)=>this.beep(f,.2,'sine',.17,i*.08));},
+      join:()=>{this.beep(740,.11,'sine',.18);this.beep(987.8,.13,'sine',.18,.09);},
+      round:()=>{[587.3,523.3,659.3,784].forEach((f,i)=>this.beep(f,.2,'triangle',.17,i*.1));},
+      turn:()=>{this.beep(880,.08,'sine',.14);this.beep(1174.7,.1,'sine',.11,.06);},
+      win:()=>{[523.3,659.3,784,1046.5,1318.5,1568].forEach((f,i)=>this.beep(f,.34,'triangle',.24,i*.11));this.noise(.8,.06,.2,1400);},
+      err:()=>{this.beep(210,.15,'sawtooth',.16);this.beep(155,.18,'sawtooth',.13,.07);}
+    };
+    (P[k]||P.click)();
+  },
+  setMusic(on){
+    this.init(); this.music=!!on;
+    try{localStorage.setItem('sp_mus',on?'1':'0');}catch(e){}
+    if(!this.ctx) return;
+    clearInterval(this.timer); this.timer=null;
+    const t=this.ctx.currentTime;
+    this.mgain.gain.cancelScheduledValues(t);
+    this.mgain.gain.linearRampToValueAtTime(on?.52:0,t+.6);
+    if(!on) return;
+    /* 3/4 French Musette / Music-Box Waltz Loop */
+    const bass=[146.8,220,220, 130.8,196,196, 110,164.8,164.8, 146.8,220,220];
+    const lead=[0,2,4, 5,4,2, 3,2,1, 2,4,5, 7,5,4, 2,3,4];
+    const sc=[293.7,329.6,370,392,440,493.9,554.4,587.3,659.3];
+    this.step=0;
+    this.timer=setInterval(()=>{
+      if(!this.music||!this.ctx) return;
+      const s=this.step++;
+      const beat=s%3;
+      this.beep(bass[s%bass.length], beat===0?.45:.22, 'sine', beat===0?.15:.07, 0, this.mgain);
+      const f=sc[lead[s%lead.length]];
+      this.beep(f, .34, 'triangle', .075, 0, this.mgain);
+      this.beep(f*2, .22, 'sine', .028, .04, this.mgain);
+    },280);
+  },
+  setSfx(on){ this.sfx=!!on; try{localStorage.setItem('sp_sfx',on?'1':'0');}catch(e){} }
+};
+
+/* =======================================================================
+   5) NET — PeerJS Host-Authoritative Multiplayer
+   ======================================================================= */
+const PREFIX='splmaya6-';
+const AVA=['👩‍🍳','🧑‍🍳','👸','🤵','🎩','💃'];
+const BOT_NAMES=['เชฟโคลเอ้','เชฟปิแอร์','เชฟลูมิแอร์','เชฟกัสตง'];
+
+const NET={
+  mode:'local',peer:null,conns:[],host:null,code:'',myName:'',mySeat:0,seatKnown:true,lobby:[],
+  gen(){const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<5;i++)s+=A[rnd(A.length)];return s;},
+  createHost(name,cb){
+    this.mode='host';this.myName=name;this.mySeat=0;this.seatKnown=true;this.code=this.gen();
+    this.lobby=[{name,avatar:AVA[0],bot:false,conn:null}];
+    const tryOnce=att=>{
+      if(this.peer){try{this.peer.destroy();}catch(e){}}
+      this.peer=new Peer(PREFIX+this.code,{debug:0});
+      let done=false;
+      const to=setTimeout(()=>{if(done)return;done=true;try{this.peer.destroy();}catch(e){}
+        att<3?(this.code=this.gen(),tryOnce(att+1)):cb(false,'เชื่อมต่อไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');},10000);
+      this.peer.on('open',()=>{if(done)return;done=true;clearTimeout(to);cb(true);});
+      this.peer.on('error',err=>{
+        if(done)return;
+        if(String(err.type)==='unavailable-id'&&att<4){done=true;clearTimeout(to);this.code=this.gen();tryOnce(att+1);}
+        else{done=true;clearTimeout(to);cb(false,'ผิดพลาด: '+err.type);}
+      });
+      this.peer.on('connection',c=>this.onGuest(c));
+    };
+    tryOnce(0);
+  },
+  onGuest(conn){
+    conn.on('open',()=>{
+      conn.on('data',m=>this.hostMsg(conn,m));
+      conn.on('close',()=>this.dropped(conn));
+      conn.on('error',()=>this.dropped(conn));
+    });
+  },
+  hostMsg(conn,m){
+    if(!m||!m.t) return;
+    if(m.t==='join'){
+      const nm=String(m.name||'เชฟรับเชิญ').slice(0,12);
+      if(GAME.state){
+        const seat=GAME.state.seats.find(s=>s.name===nm&&!s.connected&&!s.bot);
+        if(seat){ seat.connected=true; conn.seat=seat.idx; this.conns.push(conn);
+          conn.send({t:'seat',seat:seat.idx,code:this.code});
+          toast(`🔁 ${nm} กลับเข้าสู่ครัวแล้ว`); AUDIO.play('join');
+          this.broadcast(); UI.render(); GAME.maybeAuto(); return; }
+        conn.send({t:'deny',why:'การแข่งขันเริ่มแล้ว และไม่พบที่นั่งของชื่อนี้'}); return;
+      }
+      if(this.lobby.length>=4){conn.send({t:'deny',why:'ซาลอนเต็มแล้ว (สูงสุด 4 คน)'});return;}
+      if(this.lobby.some(p=>p.name===nm)){conn.send({t:'deny',why:'ชื่อซ้ำกับเชฟในห้อง กรุณาเปลี่ยนชื่อ'});return;}
+      const seat=this.lobby.length;
+      this.lobby.push({name:nm,avatar:AVA[seat],bot:false,conn});
+      conn.seat=seat; this.conns.push(conn);
+      conn.send({t:'seat',seat,code:this.code});
+      AUDIO.play('join'); toast(`👋 ${nm} เข้าสู่ซาลอน`); this.pushLobby();
+    }
+    else if(m.t==='act'&&GAME.state&&conn.seat!=null) GAME.doAction(conn.seat,m.a);
+  },
+  dropped(conn){
+    this.conns=this.conns.filter(c=>c!==conn);
+    if(GAME.state&&conn.seat!=null){
+      const s=GAME.state.seats[conn.seat];
+      if(s&&s.connected){s.connected=false;toast(`⚠️ ${s.name} สัญญาณหลุด — ผู้ช่วยเชฟดูแลเตาต่ออัตโนมัติ`);}
+      this.broadcast(); UI.render(); GAME.maybeAuto();
+    }else{
+      this.lobby=this.lobby.filter(p=>p.conn!==conn);
+      this.lobby.forEach((p,i)=>{p.avatar=AVA[i]; if(p.conn) p.conn.seat=i;});
+      this.pushLobby();
+    }
+  },
+  pushLobby(){
+    const L=this.lobby.map(p=>({name:p.name,avatar:p.avatar}));
+    this.conns.forEach(c=>{try{c.send({t:'lobby',list:L,code:this.code});}catch(e){}});
+    UI.lobby(L);
+  },
+  broadcast(){ if(this.mode!=='host'||!GAME.state) return;
+    const pack={t:'state',s:GAME.pack()};
+    this.conns.forEach(c=>{try{c.send(pack);}catch(e){}}); },
+  fx(list){ if(this.mode!=='host'||!list||!list.length) return;
+    this.conns.forEach(c=>{try{c.send({t:'fx',fx:list});}catch(e){}}); },
+  joinHost(name,code,cb){
+    this.mode='guest';this.myName=name;this.code=String(code).toUpperCase();this.seatKnown=false;
+    if(this.peer){try{this.peer.destroy();}catch(e){}}
+    this.peer=new Peer({debug:0});
+    let done=false;
+    const to=setTimeout(()=>{if(!done){done=true;cb(false,'เชื่อมต่อไม่สำเร็จ — ตรวจรหัสซาลอน หรือเจ้าของห้องยังไม่เปิด');}},13000);
+    this.peer.on('open',()=>{
+      const c=this.peer.connect(PREFIX+this.code,{reliable:true});
+      this.host=c;
+      c.on('open',()=>c.send({t:'join',name}));
+      c.on('data',m=>{
+        if(!m||!m.t) return;
+        if(m.t==='seat'){ this.mySeat=m.seat; this.seatKnown=true;
+          if(!done){done=true;clearTimeout(to);cb(true);} if(this.pending){const s=this.pending;this.pending=null;GAME.state=s;go('game');UI.render();} }
+        else if(m.t==='deny'){ if(!done){done=true;clearTimeout(to);cb(false,m.why);} }
+        else if(m.t==='lobby'){ UI.lobby(m.list); if(!GAME.state) go('lobby'); }
+        else if(m.t==='state'){ if(!this.seatKnown){this.pending=m.s;return;}
+          GAME.state=m.s; go('game'); UI.render(); }
+        else if(m.t==='fx'){ UI.playFx(m.fx); }
+        else if(m.t==='err'){ toast('⛔ '+m.msg); AUDIO.play('err'); }
+      });
+      c.on('close',()=>{toast('⚠️ ขาดการเชื่อมต่อ — กำลังเชื่อมใหม่…');setTimeout(()=>NET.reconnect(),2500);});
+      c.on('error',()=>{if(!done){done=true;clearTimeout(to);cb(false,'ไม่พบซาลอนรหัสนี้');}});
+    });
+    this.peer.on('error',e=>{if(!done){done=true;clearTimeout(to);cb(false,'ผิดพลาด: '+e.type);}});
+  },
+  reconnect(){ if(this.mode!=='guest') return;
+    this.joinHost(this.myName,this.code,ok=>{ if(!ok) setTimeout(()=>NET.reconnect(),4000); else toast('🔁 เชื่อมต่อซาลอนสำเร็จ'); }); },
+  send(a){ if(this.mode==='guest'&&this.host&&this.host.open) this.host.send({t:'act',a}); }
+};
+
+/* =======================================================================
+   6) GAME CONTROLLER
+   ======================================================================= */
+const GAME={
+  state:null,botTimer:null,
+  startLocal(bots){
+    const me=UI.name()||'เชฟมารี';
+    const seats=[{name:me,avatar:AVA[0],bot:false}];
+    for(let i=1;i<=bots;i++) seats.push({name:BOT_NAMES[i-1]||('เชฟบอท '+i),avatar:AVA[i],bot:true});
+    NET.mode='local';NET.mySeat=0;NET.seatKnown=true;NET.code='';
+    this.state=ENGINE.newGame(seats);
+    UI.sel=[];UI.prev={};UI._won=false;go('game');UI.render();AUDIO.play('room');this.maybeAuto();
+  },
+  startHosted(){
+    if(NET.lobby.length<2){toast('ต้องมีเชฟอย่างน้อย 2 คนจึงจะเริ่มได้');return;}
+    const seats=NET.lobby.map((p,i)=>({name:p.name,avatar:AVA[i],bot:false}));
+    this.state=ENGINE.newGame(seats);
+    UI.sel=[];UI.prev={};UI._won=false;
+    NET.broadcast();go('game');UI.render();AUDIO.play('room');this.maybeAuto();
+  },
+  pack(){return JSON.parse(JSON.stringify(this.state));},
+  request(a){
+    if(!this.state) return;
+    if(NET.mode==='guest'){NET.send(a);return;}
+    this.doAction(NET.mySeat,a);
+  },
+  doAction(seat,a){
+    const res=ENGINE.apply(this.state,seat,a);
+    if(res.err){
+      if(seat===NET.mySeat){toast('⛔ '+res.err);AUDIO.play('err');}
+      else{const c=NET.conns.find(c=>c.seat===seat); if(c){try{c.send({t:'err',msg:res.err});}catch(e){}}}
+      const st=this.state.seats[seat];
+      if(st&&(st.bot||!st.connected)) this.maybeAuto(true);
+      return;
+    }
+    UI.sel=[];
+    NET.broadcast(); NET.fx(res.fx||[]);
+    UI.playFx(res.fx||[]); UI.render(); this.maybeAuto();
+  },
+  maybeAuto(force){
+    clearTimeout(this.botTimer);
+    const s=this.state; if(!s||s.phase==='over') return;
+    const cur=s.seats[s.turn];
+    if(!cur) return;
+    if(!(cur.bot||!cur.connected)) return;
+    const delay=s.phase==='roundSummary'?2400:(force?900:780+rnd(420));
+    this.botTimer=setTimeout(()=>{
+      if(!this.state||this.state.phase==='over') return;
+      const st=this.state.seats[this.state.turn];
+      if(!st||!(st.bot||!st.connected)) return;
+      let a; try{a=BOT.think(this.state);}catch(e){a={t:'pass'};}
+      this.doAction(this.state.turn,a||{t:'pass'});
+    },delay);
+  }
+};
+
+/* =======================================================================
+   7) UI — Grand Pâtisserie Salon Presentation
+   ======================================================================= */
+function $(x){return document.getElementById(x);}
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));$('screen-'+id).classList.add('on');}
+function toast(t){
+  const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);
+  setTimeout(()=>{d.style.transition='opacity .4s,transform .4s';d.style.opacity=0;d.style.transform='translate(-50%,-18px)';
+    setTimeout(()=>d.remove(),420);},2400);
+}
+
+const HOWTO={
+  goal:`<div class="howto">
+    <b>เป้าหมายแห่งเชฟหลวง</b> — เป็นหัวหน้าเชฟขนมหวานคนแรกที่สะสมครบ <b>15 ดาวเกียรติยศ ⭐</b><br>
+    <div class="hero" style="grid-template-columns:repeat(3,1fr);margin:10px 0">
+      <div><span>🍬</span><strong>วัตถุดิบมาการอง</strong>ใช้รังสรรค์ตำรับขนม</div>
+      <div><span>🧁</span><strong>ตำรับขนมหวาน</strong>ให้โบนัสรสชาติถาวร</div>
+      <div><span>👑</span><strong>ราชอาคันตุกะ</strong>มอบ +3⭐ เมื่อรสชาติครบ</div>
+    </div>
+    <b>ลำดับการเล่นในครัวหลวง</b><br>
+    <ul>
+      <li><span class="k">1</span>ผลัดกันเล่นทีละตา ใน 1 ตาเลือกทำได้ <b>1 แอ็กชันเท่านั้น</b></li>
+      <li><span class="k">2</span>รังสรรค์ตำรับขนมเพื่อรับ <b>โบนัสรสชาติถาวร</b> ทำให้ปรุงตำรับถัดไปใช้มาการองน้อยลง</li>
+      <li><span class="k">3</span>เมื่อสะสมโบนัสรสชาติครบตามที่ราชอาคันตุกะโปรดปราน ท่านจะเสด็จมาเยือนและมอบ <b>+3⭐ ทันที</b></li>
+    </ul>
+    <b>การจัดเตรียมวัตถุดิบตามจำนวนเชฟ</b><br>
+    <ul>
+      <li>เชฟ 2 คน = มาการองรสละ <b>4 ชิ้น</b> · ราชอาคันตุกะ <b>3 ท่าน</b></li>
+      <li>เชฟ 3 คน = มาการองรสละ <b>5 ชิ้น</b> · ราชอาคันตุกะ <b>4 ท่าน</b></li>
+      <li>เชฟ 4 คน = มาการองรสละ <b>7 ชิ้น</b> · ราชอาคันตุกะ <b>5 ท่าน</b></li>
+      <li>ทรัฟเฟิลทองคำ 🪙 = <b>5 ชิ้นเสมอ</b> (ใช้แทนรสใดก็ได้)</li>
+    </ul></div>`,
+  act:`<div class="howto">
+    <b>ในตาของคุณ เลือกทำ 1 อย่างต่อไปนี้</b><br>
+    <ul>
+      <li><span class="k">A</span><b>คัดสรรมาการอง 3 ชิ้นต่างรส</b> — คลิกเลือกมาการอง 3 รสที่ตู้โชว์ด้านซ้าย แล้วกดยืนยัน</li>
+      <li><span class="k">B</span><b>คัดสรรมาการอง 2 ชิ้นรสเดียวกัน</b> — ทำได้เมื่อรสนั้นมีเหลือในตู้ <b>อย่างน้อย 4 ชิ้น</b> (คลิกรสเดิมซ้ำ 2 ครั้ง)</li>
+      <li><span class="k">C</span><b>เก็บตำรับลับในฝาครอบ (จอง)</b> — คลิกตำรับบนโต๊ะแล้วเลือก “เก็บตำรับลับ” หรือคลิกที่กองตำรับเพื่อสุ่มเก็บแบบปิด จะได้รับ <b>ทรัฟเฟิลทองคำ 🪙 1 ชิ้น</b> (ถ้ายังมีเหลือ) · เก็บได้สูงสุด <b>3 ใบ</b></li>
+      <li><span class="k">D</span><b>รังสรรค์ตำรับขนม (ซื้อการ์ด)</b> — ปรุงได้ทั้งตำรับที่เปิดอยู่กลางโต๊ะ และตำรับลับที่เก็บไว้ในฝาครอบของตนเอง</li>
+    </ul>
+    <b>การใช้โบนัสและทรัฟเฟิล</b><br>
+    <ul>
+      <li>โบนัสรสชาติจากตำรับที่ปรุงสำเร็จแล้ว <b>ลดต้นทุนวัตถุดิบถาวร</b> ทุกตา</li>
+      <li>ทรัฟเฟิลทองคำ 🪙 ใช้แทนวัตถุดิบรสใดก็ได้ 1 ชิ้น</li>
+      <li>วัตถุดิบที่ใช้ปรุงแล้วจะถูกส่งคืนเข้าตู้โชว์กลาง</li>
+    </ul>
+    <b>ขนาดถาดวัตถุดิบ</b> — เมื่อจบตาถือมาการองรวมกับทรัฟเฟิลได้ <b>ไม่เกิน 10 ชิ้น</b> หากเกินต้องเลือกคืนส่วนเกินทันที</div>`,
+  end:`<div class="howto">
+    <b>👑 การเสด็จเยือนของราชอาคันตุกะ</b><br>
+    <ul>
+      <li>ระบบตรวจสอบอัตโนมัติ <b>เมื่อจบตา</b> หากโบนัสรสชาติจากตำรับของคุณครบตามที่ราชอาคันตุกะต้องการ ท่านจะมาเยือนทันที (+3⭐)</li>
+      <li>รับรองได้ <b>สูงสุด 1 ท่านต่อตา</b> หากผ่านเกณฑ์หลายท่านพร้อมกัน คุณสามารถเลือกท่านที่ต้องการได้</li>
+      <li>นับเฉพาะ <b>โบนัสรสชาติถาวรจากตำรับขนม</b> (ไม่นับมาการองในมือ)</li>
+    </ul>
+    <b>🏁 การตัดสินผู้ชนะ</b><br>
+    <ul>
+      <li>เมื่อมีเชฟสะสมครบ <b>15 ดาว ⭐</b> จะเล่นต่อจน <b>จบรอบนั้น</b> เพื่อให้เชฟทุกคนได้จำนวนตาเท่ากัน</li>
+      <li>ผู้ที่มีดาวเกียรติยศสูงสุดเป็นผู้ชนะ</li>
+      <li>หากดาวเท่ากัน → เชฟที่ใช้ <b>จำนวนตำรับขนมน้อยกว่า</b> เป็นผู้ชนะ!</li>
+    </ul>
+    <b>🔗 การเปิดซาลอนออนไลน์ (P2P)</b><br>
+    <ul>
+      <li>กดสร้างซาลอนแล้วส่ง <b>ลิงก์เทียบเชิญ</b> หรือ <b>รหัส 5 ตัว</b> ให้เพื่อน</li>
+      <li>หากสัญญาณหลุดกลางคัน ระบบจะดูแลเตาอบแทนชั่วคราว และกลับเข้าห้องเดิมด้วย <b>ชื่อเชฟเดิม</b> ได้ทันที</li>
+    </ul></div>`
+};
+
+const UI={
+  sel:[],owner:null,prev:{},howTab:'goal',_won:false,
+  name(){return ($('myname').value||'').trim().slice(0,12);},
+  closeOv(){this.owner=null;$('ov').classList.remove('on');},
+  lobby(list){
+    $('lob-code').textContent=NET.code||'-----';
+    $('lob-list').innerHTML=list.map((p,i)=>
+      `<div class="pill" style="font-size:14px;padding:9px 14px">${p.avatar||AVA[i]} <b>${p.name}</b>${i===0?' · 👑 หัวหน้าซาลอน':''}</div>`).join('');
+    $('lob-msg').textContent=NET.mode==='host'
+      ?(list.length<2?'รอเชฟเข้าร่วมอีกอย่างน้อย 1 ท่าน…':`พร้อมเปิดครัวแล้ว! (เชฟ ${list.length} ท่าน)`)
+      :'รอหัวหน้าซาลอนกดเปิดครัวเริ่มการแข่งขัน…';
+    $('b-start').style.display=NET.mode==='host'?'inline-flex':'none';
+    $('b-start').disabled=!(NET.mode==='host'&&list.length>=2);
+  },
+  howto(){
+    this.owner='how';
+    const T=[['goal','🎯 เป้าหมาย & กติกา'],['act','🧁 แอ็กชันในตาเดิน'],['end','👑 อาคันตุกะ & จบเกม']];
+    $('sheet').innerHTML=`<h2>📖 ตำราการเล่น · เลอ มาการอง โรยัล</h2>
+      <div class="tabs">${T.map(t=>`<div class="tab ${this.howTab===t[0]?'on':''}" data-how="${t[0]}">${t[1]}</div>`).join('')}</div>
+      ${HOWTO[this.howTab]}
+      <div class="row" style="margin-top:14px"><button class="btn ghost" data-close="1">ปิดตำรา</button></div>`;
+    $('ov').classList.add('on');
+  },
+  showLog(){
+    this.owner='log'; const s=GAME.state; const L=(s&&s.log||[]).slice(-40).reverse();
+    $('sheet').innerHTML=`<h2>📜 บันทึกครัวหลวง (Action Log)</h2>
+      <div class="howto" style="font-size:13px;line-height:1.9;max-height:58dvh;overflow:auto;padding:4px 8px">
+      ${L.length?L.map(x=>'• '+x).join('<br>'):'<i style="color:var(--dim)">ยังไม่มีบันทึกการรังสรรค์ขนม</i>'}</div>
+      <div class="row" style="margin-top:14px"><button class="btn ghost" data-close="1">ปิดบันทึก</button></div>`;
+    $('ov').classList.add('on');
+  },
+  chip(c,n){return `<div class="cchip t-${c}">${n}</div>`;},
+  cardHTML(id,ctx,key){
+    if(id==null) return `<div class="card empty"></div>`;
+    const c=CARDS[id],s=GAME.state,me=s.seats[NET.mySeat];
+    const can=me&&s.turn===NET.mySeat&&s.phase==='play'&&ENGINE.canBuy(me,c);
+    const isNew=key&&this.prev[key]!==id;
+    if(key) this.prev[key]=id;
+    const cost=COLORS.filter(x=>c.cost[x]>0).map(x=>this.chip(x,c.cost[x])).join('');
+    return `<div class="card bg-${c.bonus} ${can?'buyable':''} ${isNew?'deal':''}" data-act="${ctx}" data-id="${id}">
+      <div class="hd">
+        <span class="pts">${c.pts?c.pts+'<small>⭐</small>':''}</span>
+        <span class="bon-pill t-${c.bonus}" title="โบนัส ${GEM[c.bonus].th}">${GEM[c.bonus].ico}</span>
+      </div>
+      <div class="art">${c.art}</div>
+      <div class="cost">${cost}</div>
+    </div>`;
+  },
+  fit(){
+    const s=GAME.state; if(!s) return;
+    requestAnimationFrame(()=>{
+      const main=$('main'); if(!main) return;
+      const rail=$('rail'),pls=$('players');
+      const w=main.clientWidth,h=main.clientHeight;
+      const wide=window.innerWidth>940;
+      const railW=wide?(rail.offsetWidth||68):0;
+      const plsW=wide?(pls.offsetWidth||192):0;
+      const availW=Math.max(220,w-railW-plsW-28);
+      const availH=Math.max(180,(wide?h:h*0.62)-16);
+      const byH=(availH/3-8)/1.4;
+      const byW=(availW-7*4)/4.68;
+      let cw=Math.min(byH,byW);
+      cw=Math.max(52,Math.min(cw,124));
+      document.documentElement.style.setProperty('--cw',cw.toFixed(1)+'px');
+      const tk=Math.max(30,Math.min(46,(wide?availH:220)/7.2));
+      document.documentElement.style.setProperty('--tk',tk.toFixed(1)+'px');
+      const nb=Math.max(46,Math.min(76,(window.innerWidth-44)/(s.nobles.length+1.5)));
+      document.documentElement.style.setProperty('--nb',Math.min(nb,cw*0.78).toFixed(1)+'px');
+    });
+  },
+  render(){
+    const s=GAME.state; if(!s) return;
+    const me=s.seats[NET.mySeat]||s.seats[0];
+    const cur=s.seats[s.turn];
+    $('p-round').innerHTML=`รอบที่ <b>${s.round}</b>`;
+    $('p-turn').innerHTML=s.phase==='over'?'🏁 การแข่งขันสิ้นสุด'
+      :`ตาของ ${cur.avatar} <b>${cur.name}</b>${cur.idx===NET.mySeat?' (คุณ)':''}`;
+    if(NET.code){$('p-code').style.display='inline';$('p-code').textContent='ซาลอน '+NET.code;}
+
+    /* Left Token Rail: Macaron Showcase */
+    const canTake=s.turn===NET.mySeat&&s.phase==='play';
+    $('rail').innerHTML='<div class="lbl">ตู้มาการอง</div>'+[...COLORS,'y'].map(c=>{
+      const n=this.sel.filter(x=>x===c).length;
+      const dis=c==='y'||!canTake||s.bank[c]===0;
+      return `<div class="tok t-${c} ${n?'sel':''} ${dis?'dis':''}" data-gem="${c}" title="${GEM[c].th}">
+        ${n?`<span class="sel-badge">${n}</span>`:''}
+        ${GEM[c].ico}<span class="n">${s.bank[c]}</span></div>`;
+    }).join('');
+
+    /* Top Strip: Royal Gourmets (Nobles) */
+    $('nobles').innerHTML=`<span class="noble-tag">👑 อาคันตุกะ:</span>`+(s.nobles.map(nid=>{
+      const n=NOBLES[nid];
+      const near=me&&Object.keys(n.req).every(c=>me.bonus[c]>=n.req[c]);
+      return `<div class="noble ${near?'glow':''}" title="${n.title} · ต้องการโบนัส: ${Object.keys(n.req).map(c=>GEM[c].th+' '+n.req[c]).join(', ')}">
+        <span class="pts">3⭐</span><span class="face">${n.face}</span>
+        <span class="req">${Object.keys(n.req).map(c=>this.chip(c,n.req[c])).join('')}</span></div>`;
+    }).join('')||'<span style="font-size:12px;color:var(--dim)">ราชอาคันตุกะเสด็จเยือนครบทุกท่านแล้ว</span>');
+
+    /* Center Market: 3 Tiers of Patisserie Recipes */
+    $('board').innerHTML=[3,2,1].map(l=>{
+      const empty=!s.decks[l].length;
+      return `<div class="rowlvl">
+        <div class="deck ${empty?'empty':''}" data-deck="${l}" title="คลิกเพื่อสุ่มเก็บตำรับลับจากกองระดับ ${l}">
+          <span class="lv">${'✦'.repeat(l)}</span>
+          <span class="ct">${s.decks[l].length}</span>
+          <span class="lbl-sm">จองจากกอง</span>
+        </div>
+        ${s.board[l].map((id,i)=>this.cardHTML(id,`b-${l}-${i}`,`${l}-${i}`)).join('')}
+      </div>`;
+    }).join('');
+
+    /* Right Panels: Chef Stations */
+    $('players').innerHTML=s.seats.map(p=>`
+      <div class="pl ${p.idx===s.turn?'turn':''} ${p.connected?'':'off'}">
+        <div class="nm">${p.avatar} ${p.name}${p.idx===NET.mySeat?' <span style="color:var(--ok);font-size:11px">(คุณ)</span>':''}
+          ${p.bot?'🤖':''}${p.connected?'':'📴'}<span class="vp">${p.pts}⭐</span></div>
+        <div class="line">${COLORS.map(c=>`<div class="mini t-${c}" title="${GEM[c].th}: โบนัส ${p.bonus[c]} | มาการอง ${p.tok[c]}">${p.bonus[c]}<small>|${p.tok[c]}</small></div>`).join('')}
+          <div class="mini t-y" title="ทรัฟเฟิลทองคำ">🪙${p.tok.y}</div></div>
+        <div class="line" style="font-size:10.5px;color:var(--dim)">🧁 ตำรับ ${p.cards.length} · 🍽️ จอง ${p.reserved.length}/3 · 👑 ${p.nobles.length} · 🍬 ${sumTok(p.tok)}/10</div>
+        <div class="bar"><i style="width:${Math.min(100,p.pts/15*100)}%"></i></div>
+      </div>`).join('');
+
+    this.renderActions();
+    this.fit();
+    if(s.phase==='roundSummary') this.summary();
+    else if(s.phase==='over') this.gameOver();
+    else if(this.owner==='sum'||this.owner==='over') this.closeOv();
+  },
+  renderActions(){
+    const s=GAME.state,me=s.seats[NET.mySeat],mine=s.turn===NET.mySeat;
+    let h='',m='';
+    if(s.phase==='over'){
+      h=`<button class="btn" data-over="1">🏆 ดูผลการตัดสินเชฟหลวง</button>`;
+    }
+    else if(s.phase==='roundSummary'){
+      m='📜 สรุปผลการรังสรรค์ขนมประจำรอบ';
+    }
+    else if(!mine){
+      m=`⏳ รอ ${s.seats[s.turn].avatar} ${s.seats[s.turn].name} เลือกวัตถุดิบหรือปรุงขนม…`;
+    }
+    else if(s.phase==='discard'){
+      m=`⚠️ ถาดวัตถุดิบเกิน 10 ชิ้น — กรุณาคลิกคืนอีก ${sumTok(me.tok)-10} ชิ้นด้านล่าง`;
+      h=[...COLORS,'y'].filter(c=>me.tok[c]>0).map(c=>
+        `<div class="tok t-${c}" data-dis="${c}" title="คลิกเพื่อคืน ${GEM[c].th}">${GEM[c].ico}<span class="n">${me.tok[c]}</span></div>`).join('');
+    }
+    else if(s.phase==='noble'){
+      m='👑 ราชอาคันตุกะประทับใจพร้อมกันหลายท่าน — เลือกต้อนรับ 1 ท่าน';
+      h=s.pendingNobles.map(id=>`<button class="btn" data-nob="${id}">${NOBLES[id].face} ต้อนรับ ${NOBLES[id].title} (+3⭐)</button>`).join('');
+    }
+    else{
+      const two=this.sel.length===2&&this.sel[0]===this.sel[1];
+      const ok=two?s.bank[this.sel[0]]>=4:ENGINE.legalTake3(s,this.sel);
+      m=this.sel.length
+        ?`ถาดที่เลือก: ${this.sel.map(c=>GEM[c].ico+' '+GEM[c].th).join(' · ')} ${two?'(2 ชิ้นรสเดียวกัน)':''}`
+        :'🎯 ตาของคุณ — คลิกเลือกมาการองที่ตู้ซ้าย หรือคลิกตำรับขนมเพื่อปรุง/เก็บตำรับลับ';
+      h=`<button class="btn" id="b-confirm" ${ok?'':'disabled'}>✅ ยืนยันหยิบมาการอง</button>
+         <button class="btn ghost sm" id="b-clear">ล้างที่เลือก</button>`;
+      if(!ENGINE.hasLegalMove(s,me)) h+=`<button class="btn ghost sm" id="b-pass">⏭️ พักเตาอบ (ไม่มีตาเดิน)</button>`;
+      if(me.reserved.length){
+        h+=`<span style="font-size:11.5px;color:var(--rose-gold);margin-left:6px;font-weight:700">🍽️ ตำรับลับในฝาครอบ:</span>
+          <div class="hand">${me.reserved.map((id,i)=>{
+            const c=CARDS[id],can=ENGINE.canBuy(me,c);
+            return `<div class="card bg-${c.bonus} ${can?'buyable':''}" data-act="r-${i}" data-id="${id}"
+              style="width:calc(var(--cw)*.58);height:calc(var(--cw)*.82)">
+              <div class="hd"><span class="pts">${c.pts||''}</span><span class="bon-pill t-${c.bonus}" style="width:16px;height:16px;font-size:10px">${GEM[c.bonus].ico}</span></div>
+              <div class="cost">${COLORS.filter(x=>c.cost[x]>0).map(x=>UI.chip(x,c.cost[x])).join('')}</div></div>`;
+          }).join('')}</div>`;
+      }
+    }
+    $('msg').textContent=m;
+    $('actions').innerHTML=h;
+  },
+  cardPopup(id,from,lvl,idx){
+    const s=GAME.state,me=s.seats[NET.mySeat],c=CARDS[id];
+    if(s.turn!==NET.mySeat||s.phase!=='play'){toast('ยังไม่ถึงตาของคุณ');AUDIO.play('err');return;}
+    const price=ENGINE.priceOf(me,c),canRes=from==='board'&&me.reserved.length<3;
+    this.owner='card';
+    $('sheet').innerHTML=`
+      <h2>${GEM[c.bonus].ico} ${TIER_NAME[c.level]} · ${c.pts} ดาว ⭐</h2>
+      <div style="text-align:center;font-size:56px;margin:6px 0">${c.art}</div>
+      <div style="text-align:center;margin-bottom:8px;font-size:14.5px">
+        โบนัสรสชาติถาวรเมื่อปรุงสำเร็จ: <b style="color:var(--brass-light)">${GEM[c.bonus].ico} ${GEM[c.bonus].th} +1</b>
+      </div>
+      <div style="text-align:center;margin-bottom:8px;font-size:13.5px;color:var(--dim)">
+        วัตถุดิบตามสูตรเต็ม: ${COLORS.filter(x=>c.cost[x]>0).map(x=>`${GEM[x].ico} ${GEM[x].th} ×${c.cost[x]}`).join('  ')||'ฟรี'}
+      </div>
+      <div style="text-align:center;font-size:14px;font-weight:700;color:${price?'var(--ok)':'var(--bad)'};margin-bottom:14px;padding:8px;background:rgba(0,0,0,0.25);border-radius:12px">
+        ${price
+          ?'✨ จ่ายวัตถุดิบจริง (หักโบนัสแล้ว): '+([...COLORS,'y'].filter(x=>price[x]>0).map(x=>`${GEM[x].ico}×${price[x]}`).join('  ')||'ปรุงได้ฟรีโดยไม่เสียมาการอง!')
+          :'❌ มาการองในถาดยังไม่พอสำหรับปรุงตำรับนี้'}
+      </div>
+      <div class="row">
+        <button class="btn" id="pop-buy" ${price?'':'disabled'}>👩‍🍳 ปรุงตำรับนี้ทันที</button>
+        ${canRes?`<button class="btn alt" id="pop-res">🍽️ เก็บเป็นตำรับลับ${s.bank.y>0?' (+🪙 ทรัฟเฟิลทองคำ)':''}</button>`:''}
+        <button class="btn ghost" data-close="1">ยกเลิก</button>
+      </div>`;
+    $('ov').classList.add('on');
+    const buy=$('pop-buy'),res=$('pop-res');
+    if(price&&buy) buy.onclick=()=>{this.closeOv();
+      GAME.request(from==='board'?{t:'buy',from:'board',lvl,idx}:{t:'buy',from:'res',idx});};
+    if(res) res.onclick=()=>{this.closeOv();GAME.request({t:'reserve',lvl,idx});};
+  },
+  summary(){
+    const s=GAME.state,snap=s.snapshot||[],first=s.seats[s.turn];
+    this.owner='sum';
+    $('sheet').innerHTML=`<h2>📜 สรุปผลครัวหลวงประจำรอบที่ ${s.round}</h2>
+      <table>
+        <tr><th>อันดับ</th><th>เชฟ</th><th>ดาว ⭐</th><th>ตำรับ</th><th>อาคันตุกะ</th><th>จอง</th><th>มาการอง</th><th>โบนัสรสชาติประจำร้าน</th></tr>
+        ${snap.slice().sort((a,b)=>b.pts-a.pts||a.cards-b.cards).map((p,i)=>`
+          <tr class="${p.idx===NET.mySeat?'me':''}">
+            <td><b>#${i+1}</b></td>
+            <td style="text-align:left">${p.avatar} ${p.name}</td>
+            <td><b style="color:var(--brass-light)">${p.pts}⭐</b></td>
+            <td>${p.cards}</td>
+            <td>${p.nobles}</td>
+            <td>${p.res}</td>
+            <td>${p.tok}/10</td>
+            <td>${COLORS.map(c=>p.bonus[c]?GEM[c].ico+p.bonus[c]:'').filter(Boolean).join(' ')||'—'}</td>
+          </tr>`).join('')}
+      </table>
+      <div style="text-align:center;margin-top:12px;font-size:12.5px;color:${s.endTriggered?'var(--bad)':'var(--dim)'}">
+        ${s.endTriggered?'🔥 มีเชฟสะสมถึง 15 ดาวแล้ว — รอบถัดไปคือการตัดสินรอบสุดท้าย!':'ตรวจสอบความก้าวหน้าของเชฟทุกท่านก่อนเริ่มรอบถัดไป'}
+      </div>
+      <div class="row" style="margin-top:14px">
+        <button class="btn" id="sum-next" ${s.turn===NET.mySeat?'':'disabled'}>
+          ${s.turn===NET.mySeat?'▶️ เปิดเตารอบต่อไป':'⏳ รอ '+first.name+' กดเริ่มรอบถัดไป'}
+        </button>
+      </div>`;
+    $('ov').classList.add('on');
+    const b=$('sum-next');
+    if(b&&s.turn===NET.mySeat) b.onclick=()=>{AUDIO.play('click');this.closeOv();GAME.request({t:'nextRound'});};
+  },
+  gameOver(){
+    const s=GAME.state;
+    this.owner='over';
+    const rank=s.seats.slice().sort((a,b)=>b.pts-a.pts||a.cards.length-b.cards.length);
+    $('sheet').innerHTML=`<h2>🏆 ประกาศผลเชฟขนมหวานหลวงแห่งแวร์ซาย!</h2>
+      <div style="text-align:center;font-size:48px;margin:6px 0">${s.winner.map(i=>s.seats[i].avatar).join(' ')}</div>
+      <div style="text-align:center;margin-bottom:14px;color:var(--brass-light);font-weight:800;font-size:19px">
+        👑 ผู้ครองมงกุฎเชฟหลวง: ${s.winner.map(i=>s.seats[i].name).join(' & ')}
+      </div>
+      <table>
+        <tr><th>อันดับ</th><th>เชฟ</th><th>ดาวเกียรติยศ</th><th>จำนวนตำรับที่ปรุง</th><th>ราชอาคันตุกะ</th></tr>
+        ${rank.map((p,i)=>`
+          <tr class="${p.idx===NET.mySeat?'me':''}">
+            <td><b>#${i+1}</b></td>
+            <td style="text-align:left">${p.avatar} ${p.name}</td>
+            <td><b style="color:var(--brass-light)">${p.pts} ⭐</b></td>
+            <td>${p.cards.length} ใบ</td>
+            <td>${p.nobles.length} ท่าน</td>
+          </tr>`).join('')}
+      </table>
+      <div style="text-align:center;font-size:11.5px;color:var(--dim);margin-top:10px">
+        กติกาตัดสินกรณีดาวเท่ากัน: เชฟที่ใช้จำนวนตำรับขนมน้อยกว่าเป็นผู้ชนะ
+      </div>
+      <div class="row" style="margin-top:16px">
+        <button class="btn" onclick="location.reload()">🔄 เปิดซาลอนแข่งขันใหม่อีกครั้ง</button>
+      </div>`;
+    $('ov').classList.add('on');
+    if(!this._won){this._won=true;AUDIO.play('win');this.confetti();}
+  },
+  playFx(list){
+    (list||[]).forEach((f,i)=>setTimeout(()=>{
+      if(f.t==='tok') AUDIO.play('token');
+      else if(f.t==='buy'){
+        AUDIO.play('buy');
+        this.sparks(window.innerWidth/2,window.innerHeight/2,f.color);
+        if(f.pts) this.burst('+'+f.pts+'⭐','#fbe19c');
+      }
+      else if(f.t==='reserve') AUDIO.play('reserve');
+      else if(f.t==='noble'){
+        AUDIO.play('noble');
+        this.burst('👑 ราชอาคันตุกะเสด็จเยือน +3⭐','#fbe19c');
+        document.body.classList.add('shake');
+        setTimeout(()=>document.body.classList.remove('shake'),470);
+      }
+      else if(f.t==='summary') AUDIO.play('round');
+      else if(f.t==='round') AUDIO.play('turn');
+    },i*160));
+  },
+  burst(txt,col){
+    const d=document.createElement('div');d.className='fly';d.textContent=txt;d.style.color=col;
+    d.style.left='50%';d.style.top=(window.innerHeight*.52)+'px';
+    $('fx').appendChild(d);setTimeout(()=>d.remove(),1150);
+  },
+  sparks(x,y,col){
+    const C={w:'#fff8eb',u:'#70adff',g:'#6be3a4',r:'#ff7a95',k:'#c49a87'}[col]||'#fbe19c';
+    for(let i=0;i<16;i++){
+      const s=document.createElement('div');s.className='spark';
+      s.style.background=C;s.style.left=x+'px';s.style.top=y+'px';
+      s.style.setProperty('--dx',(Math.random()*220-110)+'px');
+      s.style.setProperty('--dy',(Math.random()*-170-30)+'px');
+      s.style.animationDelay=(Math.random()*.12)+'s';
+      $('fx').appendChild(s);setTimeout(()=>s.remove(),950);
+    }
+  },
+  confetti(){
+    const cv=$('cv');cv.style.display='block';
+    cv.width=innerWidth;cv.height=innerHeight;
+    const ctx=cv.getContext('2d');
+    const P=Array.from({length:150},()=>({
+      x:Math.random()*cv.width,y:-Math.random()*cv.height,
+      w:5+Math.random()*7,h:8+Math.random()*10,
+      vy:2+Math.random()*4,vx:-1.5+Math.random()*3,
+      a:Math.random()*6.3,va:-.14+Math.random()*.28,
+      c:['#fbe19c','#ff7a95','#6be3a4','#fff8eb','#70adff'][rnd(5)]
+    }));
+    let t=0;
+    (function loop(){
+      t++;ctx.clearRect(0,0,cv.width,cv.height);
+      P.forEach(p=>{
+        p.y+=p.vy;p.x+=p.vx;p.a+=p.va;
+        if(p.y>cv.height+20){p.y=-20;p.x=Math.random()*cv.width;}
+        ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a);ctx.fillStyle=p.c;
+        ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();
+      });
+      if(t<330) requestAnimationFrame(loop);
+      else {ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}
+    })();
+  }
+};
+
+/* ---------- Global Click Routing ---------- */
+document.addEventListener('click',e=>{
+  if(e.target.closest('[data-close]')){AUDIO.play('click');UI.closeOv();return;}
+  const tab=e.target.closest('[data-how]');
+  if(tab){AUDIO.play('click');UI.howTab=tab.dataset.how;UI.howto();return;}
+  if(e.target.closest('[data-over]')){UI.gameOver();return;}
+  const s=GAME.state;
+  const gem=e.target.closest('[data-gem]');
+  if(gem&&s){
+    const c=gem.dataset.gem;
+    if(gem.classList.contains('dis')){AUDIO.play('err');return;}
+    const cnt=UI.sel.filter(x=>x===c).length;
+    const two=UI.sel.length===2&&UI.sel[0]===UI.sel[1];
+    if(two&&cnt===0){AUDIO.play('err');toast('เลือก 2 ชิ้นรสเดียวกันอยู่แล้ว กด “ล้างที่เลือก” ก่อน');return;}
+    if(cnt===2) UI.sel=[];
+    else if(UI.sel.length===1&&UI.sel[0]===c){
+      if(s.bank[c]>=4) UI.sel.push(c);
+      else {UI.sel=[];AUDIO.play('err');toast('รสนี้เหลือไม่ถึง 4 ชิ้น จึงหยิบ 2 ชิ้นซ้ำไม่ได้');UI.render();return;}
+    }
+    else if(cnt===1) UI.sel=UI.sel.filter(x=>x!==c);
+    else if(UI.sel.length<3) UI.sel.push(c);
+    else {AUDIO.play('err');toast('เลือกหยิบได้สูงสุด 3 ชิ้นต่างรส');return;}
+    AUDIO.play('token');
+    gem.classList.add('bump');
+    UI.render();return;
+  }
+  const dis=e.target.closest('[data-dis]');
+  if(dis){AUDIO.play('token');GAME.request({t:'discard',c:dis.dataset.dis});return;}
+  const nob=e.target.closest('[data-nob]');
+  if(nob){AUDIO.play('click');GAME.request({t:'noble',id:+nob.dataset.nob});return;}
+  const deck=e.target.closest('[data-deck]');
+  if(deck&&s){
+    if(deck.classList.contains('empty')){AUDIO.play('err');toast('กองตำรับระดับนี้หมดแล้ว');return;}
+    if(s.turn!==NET.mySeat||s.phase!=='play'){toast('ยังไม่ถึงตาของคุณ');AUDIO.play('err');return;}
+    if(s.seats[NET.mySeat].reserved.length>=3){toast('เก็บตำรับลับในฝาครอบได้สูงสุด 3 ใบ');AUDIO.play('err');return;}
+    AUDIO.play('reserve');GAME.request({t:'reserve',lvl:+deck.dataset.deck,idx:-1});return;
+  }
+  const card=e.target.closest('[data-act]');
+  if(card&&s){
+    const a=card.dataset.act.split('-');AUDIO.play('card');
+    if(a[0]==='b') UI.cardPopup(+card.dataset.id,'board',+a[1],+a[2]);
+    else UI.cardPopup(+card.dataset.id,'res',0,+a[1]);
+    return;
+  }
+  if(e.target.id==='b-confirm'){
+    const sel=UI.sel.slice();
+    if(!sel.length) return;
+    if(sel.length===2&&sel[0]===sel[1]) GAME.request({t:'take2',c:sel[0]});
+    else GAME.request({t:'take3',cols:sel});
+    return;
+  }
+  if(e.target.id==='b-clear'){UI.sel=[];AUDIO.play('click');UI.render();return;}
+  if(e.target.id==='b-pass'){AUDIO.play('click');GAME.request({t:'pass'});return;}
+});
+$('ov').addEventListener('click',e=>{ if(e.target.id==='ov'&&(UI.owner==='how'||UI.owner==='log'||UI.owner==='card')) UI.closeOv(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&(UI.owner==='how'||UI.owner==='log'||UI.owner==='card')) UI.closeOv(); });
+
+/* ---------- Menu Wiring ---------- */
+function needName(){const n=UI.name();if(!n){toast('กรุณาระบุนามเชฟขนมหวานของคุณก่อน');AUDIO.play('err');$('myname').focus();return null;}return n;}
+$('b-solo').onclick=()=>{AUDIO.init();AUDIO.play('click');if(!needName())return;go('solo');};
+document.querySelectorAll('.solo-n').forEach(b=>b.onclick=()=>{AUDIO.play('click');GAME.startLocal(+b.dataset.n);});
+$('b-host').onclick=()=>{
+  AUDIO.init();AUDIO.play('click');const n=needName();if(!n)return;
+  $('menu-note').textContent='⏳ กำลังจัดเตรียมซาลอน…';$('b-host').disabled=true;
+  NET.createHost(n,(ok,why)=>{
+    $('b-host').disabled=false;
+    if(!ok){$('menu-note').textContent='❌ '+why;AUDIO.play('err');toast(why);return;}
+    $('menu-note').textContent='';AUDIO.play('room');go('lobby');
+    UI.lobby(NET.lobby.map((p,i)=>({name:p.name,avatar:AVA[i]})));
+  });
+};
+$('b-join').onclick=()=>{
+  AUDIO.init();AUDIO.play('click');const n=needName();if(!n)return;
+  const c=($('joincode').value||'').trim().toUpperCase();
+  if(c.length!==5){toast('รหัสซาลอนต้องมี 5 ตัวอักษร');AUDIO.play('err');return;}
+  $('menu-note').textContent='⏳ กำลังเดินทางเข้าสู่ซาลอน '+c+'…';$('b-join').disabled=true;
+  NET.joinHost(n,c,(ok,why)=>{
+    $('b-join').disabled=false;
+    if(!ok){$('menu-note').textContent='❌ '+why;AUDIO.play('err');toast(why);return;}
+    $('menu-note').textContent='';AUDIO.play('join');go('lobby');$('lob-code').textContent=NET.code;
+  });
+};
+$('b-start').onclick=()=>{AUDIO.play('click');GAME.startHosted();};
+$('b-leave').onclick=()=>location.reload();
+$('b-copy').onclick=()=>{
+  const url=location.href.split('#')[0]+'#'+NET.code;
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(()=>toast('🔗 คัดลอกลิงก์เทียบเชิญแล้ว'));
+  }
+};
+$('b-copycode').onclick=()=>{
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(NET.code).then(()=>toast('📋 คัดลอกรหัสซาลอน '+NET.code));
+  }
+};
+$('b-how-menu').onclick=$('b-how-lob').onclick=$('b-how').onclick=()=>{AUDIO.init();AUDIO.play('click');UI.howto();};
+$('b-log').onclick=()=>{AUDIO.play('click');UI.showLog();};
+
+function syncAudioBtns(){
+  [['b-sfx','b-sfx0',AUDIO.sfx,'🔊','🔇'],['b-mus','b-mus0',AUDIO.music,'🎵','🎵']].forEach(([a,b,on,i1,i2])=>{
+    [a,b].forEach(id=>{const el=$(id);if(!el)return;el.textContent=on?i1:i2;el.classList.toggle('off',!on);});
+  });
+}
+function toggleSfx(){AUDIO.init();AUDIO.setSfx(!AUDIO.sfx);syncAudioBtns();if(AUDIO.sfx)AUDIO.play('click');
+  toast(AUDIO.sfx?'🔊 เปิดเสียงเอฟเฟกต์ครัวหลวง':'🔇 ปิดเสียงเอฟเฟกต์');}
+function toggleMus(){AUDIO.init();AUDIO.setMusic(!AUDIO.music);syncAudioBtns();
+  toast(AUDIO.music?'🎵 เปิดดนตรีซาลอนฝรั่งเศส':'🎵 ปิดดนตรีแบ็กกราวน์');}
+$('b-sfx').onclick=$('b-sfx0').onclick=toggleSfx;
+$('b-mus').onclick=$('b-mus0').onclick=toggleMus;
+
+let rt;
+window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(GAME.state)UI.render();},120);});
+window.addEventListener('orientationchange',()=>setTimeout(()=>{if(GAME.state)UI.render();},300));
+
+/* ---------- Boot ---------- */
+(function boot(){
+  const gl=['🧁','🥐','🍰','🍓','🍫','👑','🍾','🫖','🥧','🍮','🥨','🦢'];
+  let h='<div class="awning"></div>';
+  for(let i=0;i<16;i++) h+=`<div class="glyph" style="left:${rnd(100)}%;top:${rnd(100)}%;
+    font-size:${36+rnd(42)}px;animation-duration:${9+rnd(10)}s;animation-delay:${rnd(5)}s">${gl[rnd(gl.length)]}</div>`;
+  h+=`<div class="trim-line" style="top:8%"></div><div class="trim-line" style="bottom:6%"></div>`;
+  $('bg').innerHTML=h;
+  selfTest();
+  try{
+    AUDIO.sfx=localStorage.getItem('sp_sfx')!=='0';
+    $('myname').value=localStorage.getItem('sp_name')||'';
+  }catch(e){}
+  syncAudioBtns();
+  $('myname').addEventListener('input',e=>{try{localStorage.setItem('sp_name',e.target.value);}catch(err){}});
+  $('joincode').addEventListener('input',e=>{e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'');});
+  const hash=(location.hash||'').replace('#','').toUpperCase();
+  if(/^[A-Z0-9]{5}$/.test(hash)){
+    $('joincode').value=hash;
+    $('menu-note').textContent='🔗 พบรหัสซาลอน '+hash+' จากลิงก์เทียบเชิญ — ระบุนามเชฟแล้วกด “เข้าร่วมซาลอน”';
+  }
+  const wantMusic=(()=>{try{return localStorage.getItem('sp_mus')!=='0';}catch(e){return true;}})();
+  document.addEventListener('pointerdown',function once(){
+    AUDIO.init(); if(wantMusic&&!AUDIO.music){AUDIO.setMusic(true);syncAudioBtns();}
+    document.removeEventListener('pointerdown',once);
+  });
+})();
+</script>
+</body>
+</html>
